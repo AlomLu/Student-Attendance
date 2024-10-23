@@ -1,0 +1,159 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+a{
+    text-decoration: none;
+}
+ul{
+    list-style: none;
+}
+img{
+    max-width: 100%;
+    vertical-align: middle;
+}
+.main{
+    width: 1000px;
+    margin: auto;
+}
+
+/* Header area start */
+.login-area{}
+#header{}
+#header h3, .footer-area {
+    text-align: center;
+	padding: 14px 0;
+	text-transform: capitalize;
+	background: teal;
+	color: #fff;
+	font-size: 30px;
+	font-weight: bold;
+}
+/* Header area end */
+
+/* Login area start */
+.login {
+	overflow: hidden;
+	background-image: url('../img/attendance-1.jpg');
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	height: 100vh;
+	width: 100%;
+	text-align: center;
+	padding-top: 20%;
+}
+.login h4 {
+	font-size: 30px;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+.form-group-inline{}
+.form-group{}
+.form-group input {
+	width: 37%;
+	padding: 10px 2px;
+	margin-bottom: 10px;
+	border-radius: 10px;
+	border: none;
+}
+.form-group input:focus {
+    border: 1px solid aqua;
+    outline: none;
+}
+.form-group input[type="submit"] {
+	cursor: pointer;
+    background-color: #2ecc71;
+    color: #fff;
+    font-size: 16px;
+    transition: .9s;
+}
+.form-group input[type="submit"]:hover {
+    background-color: tomato;
+    transition: .9;
+}
+.form-group a {
+	padding: 11px 44px;
+	display: inline-block;
+	border-radius: 10px;
+	margin-right: 15px;
+    color: #fff;
+    font-size: 16px;
+    transition: .9s;
+    text-transform: capitalize;
+}
+.form-group a:first-of-type{
+    background-color:  #2e86c1;
+}
+.form-group a:last-of-type{
+    background-color:  #5dade2;
+    margin-right: 0;
+}
+.form-group a:hover{
+    background-color:  tomato;
+}
+/* Login area end */
+
+/* forget pass area start */
+.forget-pass-area {
+	width: 50%;
+	margin: auto;
+	margin-top: 20px;
+	border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.forget-pass-area h4 {
+	text-transform: capitalize;
+	font-size: 16px;
+	font-weight: bold;
+	padding: 30px;
+}
+.forget-pass {
+	border-top: 1px solid #e8daef;
+	padding: 30px;
+	border-bottom: 1px solid #e8daef;
+}
+.forget-pass p {
+	margin-bottom: 15px;
+}
+.form-group-inline{}
+.form-group{}
+.forget-pass-area .form-group input {
+    border: 1px solid #ddd;
+    width: 100%;
+  }
+  
+.btn-group {
+    text-align: end;
+    padding: 30px;
+  }
+  .btn-group a {
+	padding: 11px 25px;
+	margin-right: 10px;
+	background: #e74c3c;
+	border-radius: 10px;
+	color: #fff;
+	font-size: 16px;
+}
+  
+  .btn-group input {
+	padding: 10px 24px;
+	border-radius: 10px;
+	background-color: #2ecc71;
+	border: none;
+	color: #fff;
+	font-size: 16px;
+    cursor: pointer;
+}
+/* forget pass area end */
+
+
+
+/* Footer srea start */
+.footer-area{
+    font-size: 16px;
+}   
+.footer-area p{
+}
+/* Footer srea end */
