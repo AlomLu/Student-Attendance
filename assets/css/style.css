@@ -13,6 +13,11 @@ img{
     max-width: 100%;
     vertical-align: middle;
 }
+label {
+	text-transform: capitalize;
+	display: block;
+	margin-bottom: 8px;
+}
 .main{
     width: 1000px;
     margin: auto;
@@ -148,6 +153,63 @@ img{
 }
 /* forget pass area end */
 
+/* Sign up area start */
+.signup-area {
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+	border: 1px solid #ddd;
+}
+.signup-form {
+	width: 60%;
+	margin: auto;
+	overflow: hidden;
+	padding: 20px;
+}
+.signup-form h3 {
+	text-align: center;
+	text-transform: capitalize;
+	font-size: 30px;
+	font-weight: bold;
+	border-left: 1px solid  #cb4335 ;
+	width: 20%;
+	margin: 20px auto 30px auto;
+}
+.signup-form .form-group {
+	width: 50%;
+	float: left;
+}
+.signup-form .form-group input {
+	border: 1px solid #ddd;
+	width: 90%;
+	margin-bottom: 20px;
+}
+.signup-form .form-group input:focus {
+    outline: none;
+    border: 1px solid aqua;
+}
+.signup-form .form-group input[type="radio"] {
+	width: 6%;
+	margin-right: 5px;
+}
+.form-group select {
+	width: 90%;
+	padding: 15px 5px;
+	border-radius: 10px;
+	border: none;
+	margin-bottom: 20px;
+    cursor: pointer;
+}
+.form-group select:focus{
+    border: 1px solid aqua;
+    outline: none;
+
+}
+.signup-form .form-group:last-child{
+
+}
+.signup-form input[type="submit"]{
+
+}
+/* Sign up area end */
 
 
 /* Footer srea start */
