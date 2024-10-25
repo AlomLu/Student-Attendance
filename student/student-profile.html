@@ -9,13 +9,27 @@
 <body>
     <div class="main">
         <!-- Header area start -->
-        <div id="header">
-            <h3>attendance management system</h3>
+        <div class="student-header">
+            <div class="logo">
+                <a href="">Student</a>
+            </div>
+            <nav class="menu">
+                <ul>
+                    <li><a href="student-dashboard.html">dashboard</a></li>
+                    <li><a href="student-profile.html">profile</a></li>
+                    <li><a href="attendance.html">attendance</a></li>
+                    <li><a href="">change password</a></li>
+                    <li><a href="">Alom</a></li>
+                    <li><a href="">Logout</a></li>
+                </ul>
+            </nav>
         </div>
         <!-- Header area end -->
-         <div class="signup-area">
-            <div class="signup-form">
-                <h3>sign up</h3>
+
+        <!-- Profile area start -->
+        <div class="profile-area">
+            <div class="profile">
+                <h3>update your profile</h3>
                 <form action="" method="POST">
                     <div class="form-group-inline">
                         <div class="form-group">
@@ -39,6 +53,22 @@
                     </div>
                     <div class="form-group-inline">
                         <div class="form-group">
+                            <label for="">class</label>
+                            <!-- <input type="text" name="class" placeholder="Enter your class"> -->
+                            <select name="class" id="">
+                                <option value="">Select your class</option>
+                                <option value="">10</option>
+                                <option value="">9</option>
+                                <option value="">8</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">section</label>
+                            <input type="text" name="section" placeholder="Enter your section">
+                        </div>
+                    </div>
+                    <div class="form-group-inline">
+                        <div class="form-group">
                             <label for="">gender</label>
                             <input type="radio" name="gender" value="male">Male
                             <input type="radio" name="gender" value="female">Female
@@ -51,13 +81,13 @@
                     <div class="form-group-inline">
                         <div class="form-group">
                             <label for="">division</label>
-                             <select name="division" id="">
+                            <select name="division" id="">
                                 <option value="">Select your division</option>
                                 <option value="">Sylhet</option>
                                 <option value="">Dhaka</option>
                                 <option value="">Barishal</option>
                                 <option value="">Chottogram</option>
-                             </select>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="">district</label>
@@ -67,7 +97,7 @@
                                 <option value="">Moulvi Bazar</option>
                                 <option value="">Habiganj</option>
                                 <option value="">Sunamganj</option>
-                             </select>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group-inline">
@@ -79,7 +109,7 @@
                                 <option value="">Juri</option>
                                 <option value="">Kulaura</option>
                                 <option value="">Sreemangal</option>
-                             </select>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="">union</label>
@@ -87,7 +117,7 @@
                                 <option value="">Select your union</option>
                                 <option value="">5 No. Dakshin Shahbazpur</option>
                                 <option value="">4 No. Uttor Shahbazpur</option>
-                             </select> 
+                            </select> 
                         </div>
                     </div>
                     <div class="form-group-inline">
@@ -100,20 +130,18 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="">password</label>
-                            <input type="password" name="password" placeholder="Enter your password">
+                            <input type="submit" name="class" value="Update">
                         </div>
                     </div>
-                   <div class="form-group">
-                        <input type="submit" name="submit" value="Submit">
-                   </div>
                 </form>
             </div>
-         </div>
-        <!-- Footer area start -->
-        <div class="footer-area">
-            <p></p>&copy; Abdur Rahman Alom, All Rights Reserved.</p>
         </div>
+        <!-- Profile area end -->
+
+        <!-- Footer area start -->
+         <div class="footer-area">
+            <p></p>&copy; Abdur Rahman Alom, All Rights Reserved.</p>
+         </div>
         <!-- Footer area end -->
     </div>
 </body>
