@@ -161,7 +161,7 @@ td {
 	font-size: 16px;
 }
   
-  .btn-group input {
+.btn-group input {
 	padding: 10px 24px;
 	border-radius: 10px;
 	background-color: #2ecc71;
@@ -173,15 +173,15 @@ td {
 /* forget pass area end */
 
 /* Sign up area start */
-.signup-area {
+.signup-area, .class-area {
 	box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 	border: 1px solid #ddd;
+    padding: 30px;
 }
 .signup-form {
 	width: 60%;
 	margin: auto;
 	overflow: hidden;
-	padding: 20px;
 }
 .signup-form h3 {
 	text-align: center;
@@ -427,6 +427,29 @@ td {
     margin: 0 auto;
 }
 /* Attendance record area end */
+
+/* Add new class area start */
+.class-area h3 {
+	text-transform: capitalize;
+	border-left: 1px solid red;
+	padding-left: 5px;
+	font-size: 20px;
+	font-weight: bold;
+	width: 20%;
+	margin: 0 auto 20px auto;
+}
+.add-class-form .form-group {
+	width: 30%;
+	margin: auto;
+}
+.add-class-form .form-group input[type="submit"]{
+	width: 90%;
+	margin: auto;
+}
+.add-class-form .form-group select{
+    margin-bottom: 20px;
+}
+/* Add new class area end */
 
 /* Footer srea start */
 .footer-area{
