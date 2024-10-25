@@ -63,6 +63,9 @@ label {
 	border-radius: 10px;
 	border: none;
 }
+.login .form-group{
+    margin-bottom: 10px;
+}
 .form-group input:focus {
     border: 1px solid aqua;
     outline: none;
@@ -198,6 +201,9 @@ label {
 	/* margin-bottom: 20px; */
     cursor: pointer;
 }
+.signup-form .form-group select{
+	margin-bottom: 20px;
+}
 .form-group select:focus{
     border: 1px solid aqua;
     outline: none;
@@ -288,6 +294,78 @@ label {
     margin-right: 5px;
 }
 /* Student profile area end */
+
+/* Student attendace area start */
+.attendance {
+	box-shadow: 0 0 10px rgba(0, 0, 0 , 0.1);
+	/* border: 1px solid #ddd; */
+}
+.about {
+	text-align: center;
+	padding: 50px 0;
+}
+.about h3 {
+    text-transform: capitalize;
+	font-size: 20px;
+	margin-bottom: 10px;
+	font-weight: bold;
+	/* color: blue; */
+}
+.about p{}
+.about p span {
+	font-size: 20px;
+	/* color: blue; */
+	border-right: 1px solid red;
+	padding-right: 10px;
+}
+.about p span:last-of-type{
+    padding-left: 5px;
+    padding-right: 0;
+    border-right: 0;
+}
+.about p:last-of-type{
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+.attendance-form {
+	overflow: hidden;
+	padding-bottom: 50px;
+	/* padding-left: 20px; */
+	width: 90%;
+	margin: auto;
+}
+.attendance-form h3 {
+	text-transform: capitalize;
+	font-size: 25px;
+	font-weight: bold;
+	margin-bottom: 50px;
+	border-left: 1px solid red;
+	padding-left: 5px;
+}
+.attendance-form .form-group label {
+	border-bottom: 1px solid red;
+	padding-bottom: 20px;
+	margin-bottom: 25px;
+}
+.attendance-form .form-group {
+	width: 50%;
+	float: left;
+}
+.attendance-form .form-group input{
+	margin-right: 15px;
+}
+.attendance-form .form-group select{}
+
+.attendance-form .form-group input[type="radio"] {
+	width: 5%;
+    margin-right: 5px;
+}
+.attendance-form .form-group span{
+    margin-right: 25px;
+}
+/* Student attendace area end */
+/*  */
 
 /* Footer srea start */
 .footer-area{
