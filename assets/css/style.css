@@ -234,7 +234,7 @@ td {
 /* Sign up area end */
 
 /* Student header area start */
-.student-header {
+.student-header, .teacher-header {
 	overflow: hidden;
 	background: teal;
 	padding: 20px;

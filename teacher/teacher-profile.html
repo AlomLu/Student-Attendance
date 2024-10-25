@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="main">
+        <!-- Header area start -->
+        <div class="teacher-header">
+            <div class="logo">
+                <a href="">Teacher</a>
+            </div>
+            <nav class="menu">
+                <ul>
+                    <li><a href="teacher-dashboard.html">dashboard</a></li>
+                    <li><a href="teacher-profile.html">profile</a></li>
+                    <li><a href="add_new_class.html">Add new class</a></li>
+                    <li><a href="../auth/change-pass.html">change password</a></li>
+                    <li><a href="">Alom</a></li>
+                    <li><a href="">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+        <!-- Header area end -->
+
+        <!-- Profile area start -->
+        <div class="profile-area">
+            <div class="profile">
+                <h3>update your profile</h3>
+                <form action="" method="POST">
+                    <div class="form-group-inline">
+                        <div class="form-group">
+                            <label for="">first name</label>
+                            <input type="text" name="fname" placeholder="Enter your first name">
+                        </div>
+                        <div class="form-group">
+                            <label for="">last name</label>
+                            <input type="text" name="lname" placeholder="Enter your last name">
+                        </div>
+                    </div>
+                    <div class="form-group-inline">
+                        <div class="form-group">
+                            <label for="">email</label>
+                            <input type="text" name="email" placeholder="Enter your email">
+                        </div>
+                        <div class="form-group">
+                            <label for="">mobile number</label>
+                            <input type="text" name="mobile_number" placeholder="Enter your mobile number">
+                        </div>
+                    </div>
+                    <div class="form-group-inline">
+                        <div class="form-group">
+                            <label for="">class</label>
+                            <!-- <input type="text" name="class" placeholder="Enter your class"> -->
+                            <select name="class" id="">
+                                <option value="">Select your class</option>
+                                <option value="">10</option>
+                                <option value="">9</option>
+                                <option value="">8</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">section</label>
+                            <input type="text" name="section" placeholder="Enter your section">
+                        </div>
+                    </div>
+                    <div class="form-group-inline">
+                        <div class="form-group">
+                            <label for="">gender</label>
+                            <input type="radio" name="gender" value="male">Male
+                            <input type="radio" name="gender" value="female">Female
+                        </div>
+                        <div class="form-group">
+                            <label for="">birthday</label>
+                            <input type="date" name="birthday" placeholder="Enter your birthday">
+                        </div>
+                    </div>
+                    <div class="form-group-inline">
+                        <div class="form-group">
+                            <label for="">image</label>
+                            <input type="file" name="image" id="">
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" name="class" value="Update">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- Profile area end -->
+
+        <!-- Footer area start -->
+        <div class="footer-area">
+            <p></p>&copy; Abdur Rahman Alom, All Rights Reserved.</p>
+            </div>
+        <!-- Footer area end -->
+    </div>
+</body>
+</html>
