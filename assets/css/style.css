@@ -18,8 +18,21 @@ label {
 	display: block;
 	margin-bottom: 8px;
 }
-input{
+/* input{
     border: 1px solid #ddd;
+} */
+ table{
+    width: 100%;
+    border-collapse: collapse;
+ }
+ th {
+	text-align: left;
+	padding: 6px;
+	background:  #af7ac5 ;
+}
+td {
+	padding-left: 6px;
+	padding-top: 15px;
 }
 .main{
     width: 1000px;
@@ -274,11 +287,12 @@ input{
 	margin: 0 auto 0 auto;
 }
 .profile h3 {
-	margin: 30px 0;
-	text-align: center;
+	margin: 55px 0;
 	text-transform: capitalize;
 	font-weight: bold;
 	font-size: 20px;
+	border-left: 1px solid red;
+	padding-left: 5px;
 }
 .profile .form-group {
 	width: 50%;
@@ -371,7 +385,9 @@ input{
 
 /* Change password area start */
 .change-password {
-	padding-top: 40px;
+	/* padding-top: 40px; */
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	border: 1px solid #ddd;
 }
 .change-password h3 {
 	text-transform: capitalize;
@@ -379,20 +395,38 @@ input{
 	font-weight: bold;
 	border-left: 1px solid red;
 	width: 36%;
-	margin: 0 auto;
-	margin-bottom: 50px;
+	margin: 40px auto;
 	padding-left: 5px;
 }
 .change-password .form-group {
 	width: 100%;
 	margin: 0 auto;
 	text-align: center;
-	margin-bottom: 20px;
+	padding-bottom: 20px;
 }
 .change-password input{
     border: 1px solid #ddd;
 }
 /* Change password area end */
+
+/* Attendance record area start */
+.attendance-record-section {
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	border: 1px solid #ddd;
+	padding: 30px 0;
+}
+.attendance-record-section h3 {
+	width: 30%;
+	margin: 0 auto 40px auto;
+	border-left: 1px solid red;
+	padding-left: 5px;
+	text-transform: capitalize;
+}
+.attendance-record{
+    width: 90%;
+    margin: 0 auto;
+}
+/* Attendance record area end */
 
 /* Footer srea start */
 .footer-area{
