@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <div class="btn-group">
-                    <a href="../login.html">Cancel</a>
+                    <a href="login.php">Cancel</a>
                     <input type="submit" name="submit" value="Search">
                 </div>
             </form>

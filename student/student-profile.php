@@ -1,29 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <title>Document</title>
-</head>
-<body>
-    <div class="main">
-        <!-- Header area start -->
-        <div class="student-header">
-            <div class="logo">
-                <a href="">Student</a>
-            </div>
-            <nav class="menu">
-                <ul>
-                    <li><a href="student-dashboard.html">dashboard</a></li>
-                    <li><a href="student-profile.html">profile</a></li>
-                    <li><a href="../auth/change-pass.html">change password</a></li>
-                    <li><a href="">Alom</a></li>
-                    <li><a href="">Logout</a></li>
-                </ul>
-            </nav>
-        </div>
-        <!-- Header area end -->
+<?php include '../inc/header.php'; ?>
 
         <!-- Profile area start -->
         <div class="profile-area">
@@ -137,11 +112,4 @@
         </div>
         <!-- Profile area end -->
 
-        <!-- Footer area start -->
-         <div class="footer-area">
-            <p></p>&copy; Abdur Rahman Alom, All Rights Reserved.</p>
-         </div>
-        <!-- Footer area end -->
-    </div>
-</body>
-</html>
+<?php include '../inc/footer.php'; ?>

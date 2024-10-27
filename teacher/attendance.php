@@ -1,31 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <title>Document</title>
-</head>
-<body>
-    <div class="main">
-        <!-- Header area start -->
-        <div class="student-header">
-            <div class="logo">
-                <a href="">Student</a>
-            </div>
-            <nav class="menu">
-                <ul>
-                    <li><a href="teacher-dashboard.html">dashboard</a></li>
-                    <li><a href="teacher-profile.html">profile</a></li>
-                    <li><a href="attendance.html">attendance</a></li>
-                    <li><a href="add-class.html">add class</a></li>
-                    <li><a href="../auth/change-pass.html">change password</a></li>
-                    <li><a href="">Alom</a></li>
-                    <li><a href="">Logout</a></li>
-                </ul>
-            </nav>
-        </div>
-        <!-- Header area end -->
+<?php include '../inc/header.php'; ?>
 
         <!-- Attendance area start -->
         <div class="attendance">
@@ -126,11 +99,4 @@
         </div>
         <!-- Attendance area end -->
 
-        <!-- Footer area start -->
-         <div class="footer-area">
-            <p></p>&copy; Abdur Rahman Alom, All Rights Reserved.</p>
-         </div>
-        <!-- Footer area end -->
-    </div>
-</body>
-</html>
+<?php include '../inc/footer.php'; ?>

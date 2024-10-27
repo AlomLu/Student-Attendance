@@ -36,8 +36,8 @@
             </form>
             <div class="form-group-inline">
                 <div class="form-group">
-                    <a href="../auth/forget-pass.html">Forgotten password</a>
-                    <a href="../auth/signup.html">Signup</a>
+                    <a href="../auth/forget-pass.php">Forgotten password</a>
+                    <a href="../auth/signup.php">Signup</a>
                 </div>
             </div>
          </div>
