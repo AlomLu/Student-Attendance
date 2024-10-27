@@ -1,3 +1,10 @@
+<?php 
+    include '../Config/config.php';
+    include '../lib/Database.php'; 
+    
+    $db = new Database()    
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +20,13 @@
             <h3>attendance management system</h3>
         </div>
         <!-- Header area end -->
+
+        <!-- Database Connection test -->
+         <!-- <?php 
+            if(isset($db->success)){
+                echo $db->success;
+            }
+         ?> -->
 
         <!-- Login area start -->
         <div class="login">
