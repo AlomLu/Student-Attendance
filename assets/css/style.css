@@ -18,6 +18,18 @@ label {
 	display: block;
 	margin-bottom: 8px;
 }
+
+.error{
+    color: red;
+}
+.success{
+    color: green;
+}
+
+form span{
+    display: block;
+}
+
 /* input{
     border: 1px solid #ddd;
 } */
@@ -152,7 +164,7 @@ td {
     text-align: end;
     padding: 30px;
   }
-  .btn-group a {
+.btn-group a {
 	padding: 11px 25px;
 	margin-right: 10px;
 	background: #e74c3c;
@@ -458,3 +470,4 @@ td {
 .footer-area p{
 }
 /* Footer srea end */
+

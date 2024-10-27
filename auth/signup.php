@@ -82,7 +82,7 @@
                              </select>
                         </div>
                         <div class="form-group">
-                            <label for="">union</label>
+                            <label for="">union_parishad</label>
                             <select name="union" id="">
                                 <option value="">Select your union</option>
                                 <option value="">5 No. Dakshin Shahbazpur</option>

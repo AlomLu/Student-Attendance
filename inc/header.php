@@ -1,3 +1,8 @@
+<?php 
+    include '../lib/Session.php';
+    Session::checkSession();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +24,14 @@
                     <li><a href="student-profile.php">profile</a></li>
                     <li><a href="../auth/change-pass.php">change password</a></li>
                     <li><a href="">Alom</a></li>
-                    <li><a href="">Logout</a></li>
+                    <li>
+                        <?php 
+                            if(isset($_GET['action']) && $_GET['action'] == 'logout'){
+                                Session::destroy();
+                            }
+                        ?>
+                        <a href="?action=logout">Logout</a>
+                    </li>
                 </ul>
                 <!-- <ul>
                     <li><a href="teacher-dashboard.php">dashboard</a></li>
