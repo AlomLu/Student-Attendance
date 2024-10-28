@@ -28,6 +28,8 @@
                 <?php 
                     if(isset($_POST['submit'])){
                         if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                            // $insert_message = '';
+
                             $error_fname = '';
                             $error_lname = '';
                             $error_email= '';
@@ -38,7 +40,7 @@
                             $error_district = '';
                             $error_upazila = '';
                             $error_union_parishad = '';
-                            $error_role = '';
+                            $error_role_id = '';
                             $error_password = '';
 
                             $fname = $fm->validation($_POST['fname']);
@@ -52,15 +54,15 @@
                             $district = $fm->validation($_POST['district']);
                             $upazila = $fm->validation($_POST['upazila']);
                             $union_parishad = $fm->validation($_POST['union_parishad']);
-                            $role = $fm->validation($_POST['role']);
+                            $role_id = $fm->validation($_POST['role_id']);
                             $password = $fm->validation($_POST['password']);
 
                             $fname = mysqli_real_escape_string($db->link, $fname);
                             $lname = mysqli_real_escape_string($db->link, $lname);
                             $email = mysqli_real_escape_string($db->link, $email);
                             $mobile_number = mysqli_real_escape_string($db->link, $mobile_number);
-                            if(isset($_GET['gender'])){
-                                $gender = $fm->validation($_GET['gender']);
+                            if(isset($_POST['gender'])){
+                                $gender = $fm->validation($_POST['gender']);
                                 $gender = mysqli_real_escape_string($db->link, $gender);
                             }else{
                                 $gender = '';
@@ -70,7 +72,7 @@
                             $district = mysqli_real_escape_string($db->link, $district);
                             $upazila = mysqli_real_escape_string($db->link, $upazila);
                             $union_parishad = mysqli_real_escape_string($db->link, $union_parishad);
-                            $role = mysqli_real_escape_string($db->link, $role);
+                            $role_id = mysqli_real_escape_string($db->link, $role_id);
                             $password = mysqli_real_escape_string($db->link, $password);
 
                             if($fname == ''){
@@ -110,17 +112,40 @@
                             if($union_parishad == ''){
                                 $error_union_parishad = "Union Parishad must not be empty !!";
                             }
-                            if($role == ''){
-                                $error_role = "role must not be empty !!";
+                            if($role_id == ''){
+                                $error_role_id = "Role must not be empty !!";
                             }
 
                             if($password == ''){
                                 $error_password = "password must not be empty !!";
                             }elseif(strlen($password) < 5){
                                 $error_password = "password lenght must be 5 characters or more !!";
+                            } 
+
+                            //Insert
+
+                            if(!empty($fname) && !empty($lname) && !empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($mobile_number) && strlen($mobile_number) >10 && !empty($gender) && !empty($birthday) && !empty($division) && !empty($district) && !empty($upazila) && !empty($union_parishad) && !empty($role_id) && !empty($password) && strlen($password) >= 5){
+                                $password = md5($password);
+                                
+
+                                $query = "INSERT INTO tbl_user (fname, lname, email, mobile_number, gender, birthday, division, district, upazila, union_parishad, role_id, password) VALUES ('$fname','$lname', '$email', '$mobile_number', '$gender', '$birthday', '$division', '$district', '$upazila', '$union_parishad', '$role_id', '$password')";
+                                $result = $db->insert($query);
+
+                                if($result){
+                                    // $insert_message = "Registration successfully done";
+                                    echo "<script>alert('Registration successfully done')</script>";
+                                }else{
+                                    // $insert_message = "Something went wrong";
+                                    echo "<script>alert('Something went wrong')</script>";
+                                }
                             }
                         }
                     }
+                ?>
+                <?php 
+                    // if(!empty($insert_message)){
+                    //     echo "<span class='success'>$insert_message</span>";
+                    // }
                 ?>
                 <form action="" method="POST">
                     <div class="form-group-inline">
@@ -165,7 +190,7 @@
                             <label for="">division</label>
                              <select name="division" id="">
                                 <option value="">Select your division</option>
-                                <option value="">Sylhet</option>
+                                <option value="Sylhet">Sylhet</option>
                                 <option value="">Dhaka</option>
                                 <option value="">Barishal</option>
                                 <option value="">Chottogram</option>
@@ -177,7 +202,7 @@
                             <select name="district" id="">
                                 <option value="">Select your district</option>
                                 <option value="">Sylhet</option>
-                                <option value="">Moulvi Bazar</option>
+                                <option value="Moulvi">Moulvi Bazar</option>
                                 <option value="">Habiganj</option>
                                 <option value="">Sunamganj</option>
                              </select>
@@ -189,7 +214,7 @@
                             <label for="">upazila</label>
                             <select name="upazila" id="">
                                 <option value="">Select your upazila</option>
-                                <option value="">Barlekha</option>
+                                <option value="Barlekha">Barlekha</option>
                                 <option value="">Juri</option>
                                 <option value="">Kulaura</option>
                                 <option value="">Sreemangal</option>
@@ -200,7 +225,7 @@
                             <label for="">union parishad</label>
                             <select name="union_parishad" id="">
                                 <option value="">Select your union</option>
-                                <option value="">5 No. Dakshin Shahbazpur</option>
+                                <option value="5 No. Dakshin Shahbazpur">5 No. Dakshin Shahbazpur</option>
                                 <option value="">4 No. Uttor Shahbazpur</option>
                              </select> 
                              <?php echo isset($error_union_parishad) ? "<span class='error'>$error_union_parishad</span>" : ''; ?>
@@ -209,9 +234,9 @@
                     <div class="form-group-inline">
                         <div class="form-group">
                             <label for="">role</label>
-                            <select name="role" id="">
+                            <select name="role_id" id="">
                                 <option value="">Select your role</option>
-                                <option value="">Student</option>
+                                <option value="8">Student</option>
                                 <option value="">Teacher</option>
                             </select>
                             <?php echo isset($error_role) ? "<span class='error'>$error_role</span>" : ''; ?>
