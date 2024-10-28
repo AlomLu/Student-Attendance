@@ -29,6 +29,9 @@ label {
 form span{
     display: block;
 }
+input{
+    border: 1px solid #ddd;
+}
 
 /* input{
     border: 1px solid #ddd;
@@ -89,7 +92,7 @@ td {
 	padding: 10px 2px;
 	/* margin-bottom: 10px; */
 	border-radius: 10px;
-	border: none;
+	/* border: none; */
 }
 .login .form-group{
     margin-bottom: 10px;
@@ -463,6 +466,22 @@ td {
 }
 /* Add new class area end */
 
+/* Email verify */
+.email-verify {
+	width: 80%;
+	margin: 0 auto;
+	padding-top: 50px;
+	text-align: center;
+}
+.email-verify h3{}
+.email-verify p {
+	margin: 20px 0;
+}
+.email-verify .form-group {
+	padding-bottom: 30px;
+}
+.email-verify .form-group input{}
+/* Email verify */
 /* Footer srea start */
 .footer-area{
     font-size: 16px;

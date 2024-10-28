@@ -1,6 +1,5 @@
 
 <?php 
-    session_start();
     include '../Config/config.php';
     include '../lib/Database.php';
     include '../Helpers/Format.php';
@@ -139,32 +138,17 @@
                             //Insert
                             if(!empty($fname) && !empty($lname) && !empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($mobile_number) && strlen($mobile_number) >10 && !empty($gender) && !empty($birthday) && !empty($division) && !empty($district) && !empty($upazila) && !empty($union_parishad) && !empty($role_id) && !empty($password) && strlen($password) >= 5){
                                 $password = md5($password);
-
-                                $_SESSION['user_data'] = [
-                                    'fname' => $fname,
-                                    'lname' => $lname,
-                                    'email' => $email,
-                                    'mobile_number' => $mobile_number,
-                                    'gender' => $gender,
-                                    'birthday' => $birthday,
-                                    'division' => $division,
-                                    'district' => $district,
-                                    'upazila' => $upazila,
-                                    'union_parishad' => $union_parishad,
-                                    'role_id' => $role_id,
-                                    'password' => $password
-                                ];
-
                                 $token = random_int(100000, 999999);
-                                $token_timestamp = time(); //current timestamp in second
 
-                                $query = "INSERT INTO pending_verifications (email, token, token_timestamp) VALUES ('$email', '$token', '$token_timestamp')";
+                                $query = "INSERT INTO tbl_user (fname, lname, email, mobile_number, gender, birthday, division, district, upazila, union_parishad, role_id, password, token) VALUES ('$fname','$lname', '$email', '$mobile_number', '$gender', '$birthday', '$division', '$district', '$upazila', '$union_parishad', '$role_id', '$password', '$token')";
                                 $result = $db->insert($query);
 
-                                
-                                
+                                //Create an instance; passing `true` enables exceptions
+                               
+
                                 if($result){
-                                    //Create an instance; passing `true` enables exceptions
+                                    // $insert_message = "Registration successfully done";
+                                    // echo "<script>alert('Registration successfully done')</script>";
                                     $mail = new PHPMailer(true);
 
                                     try {
@@ -194,6 +178,7 @@
                                         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
                                     }
                                 }else{
+                                    // $insert_message = "Something went wrong";
                                     echo "<script>alert('Something went wrong')</script>";
                                 }
                             }
