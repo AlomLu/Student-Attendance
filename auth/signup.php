@@ -1,3 +1,12 @@
+<?php 
+    include '../Config/config.php';
+    include '../lib/Database.php';
+    include '../Helpers/Format.php';
+
+    $db = new Database();
+    $fm = new Format();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,25 +25,126 @@
          <div class="signup-area">
             <div class="signup-form">
                 <h3>sign up</h3>
+                <?php 
+                    if(isset($_POST['submit'])){
+                        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                            $error_fname = '';
+                            $error_lname = '';
+                            $error_email= '';
+                            $error_mobile = '';
+                            $error_gender = '';
+                            $error_birthday = '';
+                            $error_division = '';
+                            $error_district = '';
+                            $error_upazila = '';
+                            $error_union_parishad = '';
+                            $error_role = '';
+                            $error_password = '';
+
+                            $fname = $fm->validation($_POST['fname']);
+                            $lname = $fm->validation($_POST['lname']);
+                            $email = $fm->validation($_POST['email']);
+                            $mobile_number = $fm->validation($_POST['mobile_number']);
+                            // $gender = $fm->validation($_POST['gender']);
+
+                            $birthday = $fm->validation($_POST['birthday']);
+                            $division = $fm->validation($_POST['division']);
+                            $district = $fm->validation($_POST['district']);
+                            $upazila = $fm->validation($_POST['upazila']);
+                            $union_parishad = $fm->validation($_POST['union_parishad']);
+                            $role = $fm->validation($_POST['role']);
+                            $password = $fm->validation($_POST['password']);
+
+                            $fname = mysqli_real_escape_string($db->link, $fname);
+                            $lname = mysqli_real_escape_string($db->link, $lname);
+                            $email = mysqli_real_escape_string($db->link, $email);
+                            $mobile_number = mysqli_real_escape_string($db->link, $mobile_number);
+                            if(isset($_GET['gender'])){
+                                $gender = $fm->validation($_GET['gender']);
+                                $gender = mysqli_real_escape_string($db->link, $gender);
+                            }else{
+                                $gender = '';
+                            }
+                            $birthday = mysqli_real_escape_string($db->link, $birthday);
+                            $division = mysqli_real_escape_string($db->link, $division);
+                            $district = mysqli_real_escape_string($db->link, $district);
+                            $upazila = mysqli_real_escape_string($db->link, $upazila);
+                            $union_parishad = mysqli_real_escape_string($db->link, $union_parishad);
+                            $role = mysqli_real_escape_string($db->link, $role);
+                            $password = mysqli_real_escape_string($db->link, $password);
+
+                            if($fname == ''){
+                                $error_fname = "First name must not be empty !!";
+                            } 
+                            if($lname == ''){
+                                $error_lname = "Last name must not be empty !!";
+                            } 
+
+                            if($email == ''){
+                                $error_email = "Email must not be empty";
+                            }elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+                                $error_email = "Invalid email !!";
+                            }
+
+                            if($mobile_number == ''){
+                                $error_mobile = "Mobile number must not be empty";
+                            }elseif(!preg_match('/^0\d{10}$/', $mobile_number )){
+                                $error_mobile = "Mobile Number must be in the format '01740377378' ";
+                            }
+
+                            if($gender == ''){
+                                $error_gender = "Gender must not be empty !!";
+                            }
+                            if($birthday == ''){
+                                $error_birthday = "Birthday must not be empty !!";
+                            }
+                            if($division == ''){
+                                $error_division = "Division must not be empty !!";
+                            }
+                            if($district == ''){
+                                $error_district = "district must not be empty !!";
+                            }
+                            if($upazila == ''){
+                                $error_upazila = "Upazila must not be empty !!";
+                            }
+                            if($union_parishad == ''){
+                                $error_union_parishad = "Union Parishad must not be empty !!";
+                            }
+                            if($role == ''){
+                                $error_role = "role must not be empty !!";
+                            }
+
+                            if($password == ''){
+                                $error_password = "password must not be empty !!";
+                            }elseif(strlen($password) < 5){
+                                $error_password = "password lenght must be 5 characters or more !!";
+                            }
+                        }
+                    }
+                ?>
                 <form action="" method="POST">
                     <div class="form-group-inline">
                         <div class="form-group">
                             <label for="">first name</label>
                             <input type="text" name="fname" placeholder="Enter your first name">
+                            <?php echo isset($error_fname) ? "<span class='error'>$error_fname</span>" : ''; ?>
                         </div>
                         <div class="form-group">
                             <label for="">last name</label>
                             <input type="text" name="lname" placeholder="Enter your last name">
+                            <?php echo isset($error_lname) ? "<span class='error'>$error_lname</span>" : ''; ?>
                         </div>
                     </div>
                     <div class="form-group-inline">
                         <div class="form-group">
                             <label for="">email</label>
                             <input type="text" name="email" placeholder="Enter your email">
+                            <?php echo isset($error_email) ? "<span class='error'>$error_email</span>" : ''; ?>
                         </div>
                         <div class="form-group">
                             <label for="">mobile number</label>
-                            <input type="text" name="mobile_number" placeholder="Enter your mobile number">
+                            <input type="text" name="mobile_number" placeholder="01740345782">
+                            <?php echo isset($error_mobile) ? "<span class='error'>$error_mobile</span>" : ''; ?>
                         </div>
                     </div>
                     <div class="form-group-inline">
@@ -42,10 +152,12 @@
                             <label for="">gender</label>
                             <input type="radio" name="gender" value="male">Male
                             <input type="radio" name="gender" value="female">Female
+                            <?php echo isset($error_gender) ? "<span class='error'>$error_gender</span>" : ''; ?>
                         </div>
                         <div class="form-group">
                             <label for="">birthday</label>
                             <input type="date" name="birthday" placeholder="Enter your birthday">
+                            <?php echo isset($error_birthday) ? "<span class='error'>$error_birthday</span>" : ''; ?>
                         </div>
                     </div>
                     <div class="form-group-inline">
@@ -58,6 +170,7 @@
                                 <option value="">Barishal</option>
                                 <option value="">Chottogram</option>
                              </select>
+                             <?php echo isset($error_division) ? "<span class='error'>$error_division</span>" : ''; ?>
                         </div>
                         <div class="form-group">
                             <label for="">district</label>
@@ -68,6 +181,7 @@
                                 <option value="">Habiganj</option>
                                 <option value="">Sunamganj</option>
                              </select>
+                             <?php echo isset($error_district) ? "<span class='error'>$error_district</span>" : ''; ?>
                         </div>
                     </div>
                     <div class="form-group-inline">
@@ -80,14 +194,16 @@
                                 <option value="">Kulaura</option>
                                 <option value="">Sreemangal</option>
                              </select>
+                             <?php echo isset($error_upazila) ? "<span class='error'>$error_upazila</span>" : ''; ?>
                         </div>
                         <div class="form-group">
-                            <label for="">union_parishad</label>
-                            <select name="union" id="">
+                            <label for="">union parishad</label>
+                            <select name="union_parishad" id="">
                                 <option value="">Select your union</option>
                                 <option value="">5 No. Dakshin Shahbazpur</option>
                                 <option value="">4 No. Uttor Shahbazpur</option>
                              </select> 
+                             <?php echo isset($error_union_parishad) ? "<span class='error'>$error_union_parishad</span>" : ''; ?>
                         </div>
                     </div>
                     <div class="form-group-inline">
@@ -98,10 +214,12 @@
                                 <option value="">Student</option>
                                 <option value="">Teacher</option>
                             </select>
+                            <?php echo isset($error_role) ? "<span class='error'>$error_role</span>" : ''; ?>
                         </div>
                         <div class="form-group">
                             <label for="">password</label>
                             <input type="password" name="password" placeholder="Enter your password">
+                            <?php echo isset($error_password) ? "<span class='error'>$error_password</span>" : ''; ?>
                         </div>
                     </div>
                    <div class="form-group">

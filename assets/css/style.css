@@ -207,11 +207,11 @@ td {
 .signup-form .form-group {
 	width: 50%;
 	float: left;
+    padding-bottom: 20px;
 }
 .signup-form .form-group input {
 	border: 1px solid #ddd;
 	width: 90%;
-	margin-bottom: 20px;
 }
 .signup-form .form-group input:focus {
     outline: none;
