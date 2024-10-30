@@ -16,7 +16,7 @@
         if($upazila_list){
             echo "<option>Select upazila</option>";
             while($result = $upazila_list->fetch_assoc()){
-                echo "<option value=".$result['id'].">".ucfirst($result['upazila_name'])."</option>";
+                echo "<option value=".$result['upazila_name'].">".ucfirst($result['upazila_name'])."</option>";
             }
         }else{
             echo "<option>No upazila available</option>";

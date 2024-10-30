@@ -16,7 +16,7 @@
         if($district_list){
             echo "<option>Select district</option>";
             while($result = $district_list->fetch_assoc()){
-                echo "<option value=".$result['id'].">".ucfirst($result['dis_name'])."</option>";
+                echo "<option value=".$result['dis_name'].">".ucfirst($result['dis_name'])."</option>";
             }
         }else{
             echo "<option>No district available</option>";

@@ -4,31 +4,39 @@
         <div class="profile-area">
             <div class="profile">
                 <h3>update your profile</h3>
+                <?php 
+                    $user_id = Session::get('user_id');
+                    $query = "SELECT * FROM tbl_user WHERE id = '$user_id' ";
+                    $user_details = $db->select($query);
+
+                    if($user_details){
+                        while($result = $user_details->fetch_assoc()){
+
+                ?>
                 <form action="" method="POST">
                     <div class="form-group-inline">
                         <div class="form-group">
                             <label for="">first name</label>
-                            <input type="text" name="fname" placeholder="Enter your first name">
+                            <input type="text" name="fname" value="<?php echo $result['fname'] ?>">
                         </div>
                         <div class="form-group">
                             <label for="">last name</label>
-                            <input type="text" name="lname" placeholder="Enter your last name">
+                            <input type="text" name="lname" value="<?php echo $result['lname'] ?>">
                         </div>
                     </div>
                     <div class="form-group-inline">
                         <div class="form-group">
                             <label for="">email</label>
-                            <input type="text" name="email" placeholder="Enter your email">
+                            <input type="text" readonly name="email" value="<?php echo $result['email'] ?>">
                         </div>
                         <div class="form-group">
                             <label for="">mobile number</label>
-                            <input type="text" name="mobile_number" placeholder="Enter your mobile number">
+                            <input type="text" name="mobile_number" value="<?php echo $result['mobile_number'] ?>">
                         </div>
                     </div>
-                    <div class="form-group-inline">
+                    <!-- <div class="form-group-inline">
                         <div class="form-group">
                             <label for="">class</label>
-                            <!-- <input type="text" name="class" placeholder="Enter your class"> -->
                             <select name="class" id="">
                                 <option value="">Select your class</option>
                                 <option value="">10</option>
@@ -38,25 +46,31 @@
                         </div>
                         <div class="form-group">
                             <label for="">section</label>
-                            <input type="text" name="section" placeholder="Enter your section">
+                            <input type="text" name="section" value="">
                         </div>
-                    </div>
+                    </div> -->
                     <div class="form-group-inline">
                         <div class="form-group">
                             <label for="">gender</label>
-                            <input type="radio" name="gender" value="male">Male
-                            <input type="radio" name="gender" value="female">Female
+                            <input type="radio" name="gender" value="male"
+                              <?php if(Session::get('user_gender') == 'male'){
+                                echo 'checked';
+                              } ?>  >Male
+                            <input type="radio" name="gender" value="female"
+                            <?php if(Session::get('user_gender') == 'female'){
+                                echo 'checked';
+                              } ?> >Female
                         </div>
                         <div class="form-group">
                             <label for="">birthday</label>
-                            <input type="date" name="birthday" placeholder="Enter your birthday">
+                            <input type="date" name="birthday" value="<?php echo $result['birthday'] ?>">
                         </div>
                     </div>
                     <div class="form-group-inline">
                         <div class="form-group">
                             <label for="">division</label>
                             <select name="division" id="">
-                                <option value="">Select your division</option>
+                                <option value=""><?php echo $result['division'] ?></option>
                                 <option value="">Sylhet</option>
                                 <option value="">Dhaka</option>
                                 <option value="">Barishal</option>
@@ -66,7 +80,7 @@
                         <div class="form-group">
                             <label for="">district</label>
                             <select name="district" id="">
-                                <option value="">Select your district</option>
+                                <option value=""><?php echo $result['district'] ?></option>
                                 <option value="">Sylhet</option>
                                 <option value="">Moulvi Bazar</option>
                                 <option value="">Habiganj</option>
@@ -78,7 +92,7 @@
                         <div class="form-group">
                             <label for="">upazila</label>
                             <select name="upazila" id="">
-                                <option value="">Select your upazila</option>
+                                <option value=""><?php echo $result['upazila'] ?></option>
                                 <option value="">Barlekha</option>
                                 <option value="">Juri</option>
                                 <option value="">Kulaura</option>
@@ -88,26 +102,20 @@
                         <div class="form-group">
                             <label for="">union</label>
                             <select name="union" id="">
-                                <option value="">Select your union</option>
+                                <option value=""><?php echo $result['union_parishad'] ?></option>
                                 <option value="">5 No. Dakshin Shahbazpur</option>
                                 <option value="">4 No. Uttor Shahbazpur</option>
                             </select> 
                         </div>
                     </div>
                     <div class="form-group-inline">
-                        <div class="form-group">
-                            <label for="">role</label>
-                            <select name="role" id="">
-                                <option value="">Select your role</option>
-                                <option value="">Student</option>
-                                <option value="">Teacher</option>
-                            </select>
-                        </div>
+                      
                         <div class="form-group">
                             <input type="submit" name="class" value="Update">
                         </div>
                     </div>
                 </form>
+                <?php } } ?>
             </div>
         </div>
         <!-- Profile area end -->

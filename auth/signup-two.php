@@ -1,5 +1,6 @@
 
 <?php 
+    session_start();
     include '../Config/config.php';
     include '../lib/Database.php';
     include '../Helpers/Format.php';
@@ -34,9 +35,98 @@
             <h3>attendance management system</h3>
         </div>
         <!-- Header area end -->
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <!-- Fetch district -->
+         <script>
+            $(document).ready(function(){
+                $('#division').change(function(){
+                    // var div_id = $(this).val();
+                    var division_id = $('#division').val();
+
+                    console.log(division_id);
+
+                    $.ajax({
+                        // url: "fetch-district.php",
+                        url: "fetch-data/fetch-district.php",
+                        method: "POST",
+                        data: {division_id: division_id},
+
+                        success: function(data){
+                            $('#selected_district').html(data);
+
+                            console.log(data);
+                        }
+                    });
+                });
+            });
+         </script>
+
+        <!-- Fetch upazila -->
+         <script>
+            $(document).ready(function(){
+                $('#selected_district').change(function(){
+                    // var div_id = $(this).val();
+                    var district_id = $('#selected_district').val();
+
+                    console.log(district_id);
+
+                    $.ajax({
+                        // url: "fetch-district.php",
+                        url: "fetch-data/fetch-upazila.php",
+                        method: "POST",
+                        data: {district_id: district_id},
+
+                        success: function(data){
+                            $('#selected_upazila').html(data);
+
+                            console.log(data);
+                        }
+                    });
+                });
+            });
+         </script>
+
+        <!-- Fetch union -->
+         <script>
+            $(document).ready(function(){
+                $('#selected_upazila').change(function(){
+                    // var div_id = $(this).val();
+                    var upazila_id = $('#selected_upazila').val();
+
+                    console.log(upazila_id);
+
+                    $.ajax({
+                        // url: "fetch-upazila.php",
+                        url: "fetch-data/fetch-union.php",
+                        method: "POST",
+                        data: {upazila_id: upazila_id},
+
+                        success: function(data){
+                            $('#selected_union').html(data);
+
+                            console.log(data);
+                        }
+                    });
+                });
+            });
+         </script>
+
          <div class="signup-area">
             <div class="signup-form">
                 <h3>sign up</h3>
+                <!-- <?php 
+                    function getDatee(){
+                        $datee = "2024-10-05";
+                        $data = date("F d Y", strtotime($datee));
+
+                        return $data;
+                    }
+
+                    echo getDatee();
+                ?> -->
                 <?php 
                     if(isset($_POST['submit'])){
                         if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -61,7 +151,7 @@
                             $mobile_number = $fm->validation($_POST['mobile_number']);
                             // $gender = $fm->validation($_POST['gender']);
 
-                            $birthday = $fm->validation($_POST['birthday']);
+                            $birthday = $fm->dateFormat($_POST['birthday']);
                             $division = $fm->validation($_POST['division']);
                             $district = $fm->validation($_POST['district']);
                             $upazila = $fm->validation($_POST['upazila']);
@@ -138,45 +228,12 @@
                             //Insert
                             if(!empty($fname) && !empty($lname) && !empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($mobile_number) && strlen($mobile_number) >10 && !empty($gender) && !empty($birthday) && !empty($division) && !empty($district) && !empty($upazila) && !empty($union_parishad) && !empty($role_id) && !empty($password) && strlen($password) >= 5){
                                 $password = md5($password);
-                                $token = random_int(100000, 999999);
-
-                                $query = "INSERT INTO tbl_user (fname, lname, email, mobile_number, gender, birthday, division, district, upazila, union_parishad, role_id, password, token) VALUES ('$fname','$lname', '$email', '$mobile_number', '$gender', '$birthday', '$division', '$district', '$upazila', '$union_parishad', '$role_id', '$password', '$token')";
+                                
+                                $query = "INSERT INTO tbl_user (fname, lname, email, mobile_number, gender, birthday, division, district, upazila, union_parishad, role_id, password) VALUES ('$fname','$lname', '$email', '$mobile_number', '$gender', '$birthday', '$division', '$district', '$upazila', '$union_parishad', '$role_id', '$password')";
                                 $result = $db->insert($query);
-
-                                //Create an instance; passing `true` enables exceptions
-                               
-
                                 if($result){
                                     // $insert_message = "Registration successfully done";
-                                    // echo "<script>alert('Registration successfully done')</script>";
-                                    $mail = new PHPMailer(true);
-
-                                    try {
-                                        //Server settings                  //Enable verbose debug output
-                                        $mail->isSMTP();                                            //Send using SMTP
-                                        $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
-                                        $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-                                        $mail->Username   = 'abdurrahmanalom@gmail.com';                     //SMTP username
-                                        $mail->Password   = 'udauzyjmwrkswcqf';                               //SMTP password
-                                        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;            //Enable implicit TLS encryption
-                                        $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-    
-                                        //Recipients
-                                        $mail->setFrom('abdurrahmanalom@gmail.com', 'Student Attendance');
-                                        $mail->addAddress($email);     //Add a recipient
-                                        
-    
-                                        //Content
-                                        $mail->isHTML(true);                                  //Set email format to HTML
-                                        $mail->Subject = 'Your Email Verification Code';
-                                        $mail->Body    = '<p>'.$token.'</p>';
-    
-                                       if($mail->send()){
-                                        echo '<script>window.location = "email-verify.php"</script>';
-                                       }
-                                    } catch (Exception $e) {
-                                        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-                                    }
+                                    echo "<script>alert('Registration successfully done')</script>";
                                 }else{
                                     // $insert_message = "Something went wrong";
                                     echo "<script>alert('Something went wrong')</script>";
@@ -231,23 +288,25 @@
                     <div class="form-group-inline">
                         <div class="form-group">
                             <label for="">division</label>
-                             <select name="division" id="">
+                             <select name="division" id="division">
                                 <option value="">Select your division</option>
-                                <option value="Sylhet">Sylhet</option>
-                                <option value="">Dhaka</option>
-                                <option value="">Barishal</option>
-                                <option value="">Chottogram</option>
+                                <?php 
+                                    $query = "SELECT * FROM tbl_division";
+                                    $division_list = $db->select($query);
+
+                                    if($division_list){
+                                        while($result = $division_list->fetch_assoc()){
+
+                                ?>
+                                <option value="<?php echo $result['div_name'] ?>"><?php echo ucfirst($result['div_name']) ?></option>
+                                <?php } } ?>
                              </select>
                              <?php echo isset($error_division) ? "<span class='error'>$error_division</span>" : ''; ?>
                         </div>
                         <div class="form-group">
                             <label for="">district</label>
-                            <select name="district" id="">
+                            <select name="district" id="selected_district">
                                 <option value="">Select your district</option>
-                                <option value="">Sylhet</option>
-                                <option value="Moulvi">Moulvi Bazar</option>
-                                <option value="">Habiganj</option>
-                                <option value="">Sunamganj</option>
                              </select>
                              <?php echo isset($error_district) ? "<span class='error'>$error_district</span>" : ''; ?>
                         </div>
@@ -255,21 +314,15 @@
                     <div class="form-group-inline">
                         <div class="form-group">
                             <label for="">upazila</label>
-                            <select name="upazila" id="">
+                            <select name="upazila" id="selected_upazila">
                                 <option value="">Select your upazila</option>
-                                <option value="Barlekha">Barlekha</option>
-                                <option value="">Juri</option>
-                                <option value="">Kulaura</option>
-                                <option value="">Sreemangal</option>
                              </select>
                              <?php echo isset($error_upazila) ? "<span class='error'>$error_upazila</span>" : ''; ?>
                         </div>
                         <div class="form-group">
                             <label for="">union parishad</label>
-                            <select name="union_parishad" id="">
+                            <select name="union_parishad" id="selected_union">
                                 <option value="">Select your union</option>
-                                <option value="5 No. Dakshin Shahbazpur">5 No. Dakshin Shahbazpur</option>
-                                <option value="">4 No. Uttor Shahbazpur</option>
                              </select> 
                              <?php echo isset($error_union_parishad) ? "<span class='error'>$error_union_parishad</span>" : ''; ?>
                         </div>
@@ -279,10 +332,10 @@
                             <label for="">role</label>
                             <select name="role_id" id="">
                                 <option value="">Select your role</option>
-                                <option value="8">Student</option>
-                                <option value="">Teacher</option>
+                                <option value="1">Student</option>
+                                <option value="2">Teacher</option>
                             </select>
-                            <?php echo isset($error_role) ? "<span class='error'>$error_role</span>" : ''; ?>
+                            <?php echo isset($error_role_id) ? "<span class='error'>$error_role_id</span>" : ''; ?>
                         </div>
                         <div class="form-group">
                             <label for="">password</label>

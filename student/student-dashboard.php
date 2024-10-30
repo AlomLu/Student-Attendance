@@ -3,6 +3,10 @@
 <!-- Attendance record area start -->
         <div class="attendance-record-section">
             <h3>your attendance record</h3>
+            <?php 
+                // print_r($_SESSION);
+            ?>
+            <!-- <?php echo Session::get('user_fname') ?> -->
             <div class="attendance-record">
                 <table>
                     <th>No.</th>

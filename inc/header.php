@@ -1,6 +1,13 @@
 <?php 
     include '../lib/Session.php';
     Session::checkSession();
+
+    include '../Config/config.php';
+    include '../lib/Database.php';
+    include '../Helpers/Format.php';
+
+    $db = new Database();
+    $fm = new Format();
 ?>
 
 <!DOCTYPE html>
@@ -41,6 +48,13 @@
                             }
                         ?>
                     ">profile</a></li>
+                    <li><a href="
+                        <?php
+                            if(Session::get('user_role_id') == 1){
+                                echo "class.php";
+                            }
+                        ?>
+                    ">class</a></li>
                     <li><a href="../auth/change-pass.php?user_role_id=<?php echo $user_role_id?>">change password</a></li>
 
                     <?php 
@@ -50,7 +64,7 @@
                         }
                     ?>
 
-                    <li><a href="">Alom</a></li>
+                    <li><a href=""><?php echo Session::get('user_lname') ?></a></li>
                     <li>
                         <?php 
                             if(isset($_GET['action']) && $_GET['action'] == 'logout'){

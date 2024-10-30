@@ -67,12 +67,23 @@
 
                            Session::set('login', true);
                            Session::set('user_id', $value['id']);
+                           Session::set('user_fname', $value['fname']);
+                           Session::set('user_lname', $value['lname']);
                            Session::set('user_email', $value['email']);
+                           Session::set('user_mobile', $value['mobile_number']);
+                           Session::set('user_gender', $value['gender']);
+                           Session::set('user_birthday', $value['birthday']);
+                           Session::set('user_division', $value['division']);
+                           Session::set('user_district', $value['district']);
+                           Session::set('user_upazila', $value['upazila']);
+                           Session::set('user_union', $value['union_parishad']);
                            Session::set('user_role_id', $value['role_id']);
+                           Session::set('user_class', $value['class_id']);
 
                            switch(Session::get('user_role_id')){
                             case '1':
-                                header('Location: ../student/student-dashboard.php');
+                                // header('Location: ../student/student-dashboard.php');
+                                header('Location: ../student/class.php');
                                 exit();
                             case '2':
                                 header('Location: ../teacher/teacher-dashboard.php');

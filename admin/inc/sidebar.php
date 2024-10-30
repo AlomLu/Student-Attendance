@@ -26,9 +26,9 @@
                                 <li><a href="catlist.php">Category List</a> </li>
                             </ul>
                         </li>
-                        <li><a class="menuitem">Post Option</a>
+                        <li><a class="menuitem">Class option</a>
                             <ul class="submenu">
-                                <li><a href="addpost.php">Add Post</a> </li>
+                                <li><a href="add-class.php">Add Class</a></li>
                                 <li><a href="postlist.php">Post List</a> </li>
                             </ul>
                         </li>

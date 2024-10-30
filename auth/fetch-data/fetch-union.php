@@ -16,7 +16,7 @@
         if($union_list){
             echo "<option>Select union</option>";
             while($result = $union_list->fetch_assoc()){
-                echo "<option value=".$result['id'].">".ucfirst($result['union_name'])."</option>";
+                echo "<option value=".$result['union_name'].">".ucfirst($result['union_name'])."</option>";
             }
         }else{
             echo "<option>No union available</option>";

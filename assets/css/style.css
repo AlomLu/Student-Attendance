@@ -485,6 +485,12 @@ td {
 	padding-bottom: 30px;
 }
 .email-verify .form-group input{}
+
+.class .form-group {
+    width: 30%;
+    margin: 0 auto;
+    padding-bottom: 50px;
+}
 /* Email verify */
 /* Footer srea start */
 .footer-area{
