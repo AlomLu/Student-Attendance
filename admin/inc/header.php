@@ -1,8 +1,19 @@
+<?php 
+    include '../Config/config.php';
+    include '../lib/Database.php';
+    include '../Helpers/Format.php';
+
+    $db = new Database();
+    $fm = new Format();
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <title> Admin</title>
+    <!-- <link rel="stylesheet" href="../../assets/css/style.css"> -->
     <link rel="stylesheet" type="text/css" href="css/reset.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="css/text.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="css/grid.css" media="screen" />
@@ -20,7 +31,7 @@
     <script src="js/jquery-ui/jquery.ui.sortable.min.js" type="text/javascript"></script>
     <script src="js/table/jquery.dataTables.min.js" type="text/javascript"></script>
     <!-- END: load jquery -->
-    <script type="text/javascript" src="js/table/table.js"></script>
+    <!-- <script type="text/javascript" src="js/table/table.js"></script> -->
     <script src="js/setup.js" type="text/javascript"></script>
 	 <script type="text/javascript">
         $(document).ready(function () {

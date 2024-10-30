@@ -17,9 +17,12 @@
                                 <li><a>Contact Us</a></li>
                             </ul>
                         </li>
-                        <li><a class="menuitem">Category Option</a>
+                        <li><a class="menuitem">Administrative Unit</a>
                             <ul class="submenu">
-                                <li><a href="addcat.php">Add Category</a> </li>
+                                <li><a href="add-division.php">Add Division</a> </li>
+                                <li><a href="add-district.php">Add District</a> </li>
+                                <li><a href="add-upazila.php">Add Upazila</a> </li>
+                                <li><a href="add-union-parishad.php">Add Union Parishad</a> </li>
                                 <li><a href="catlist.php">Category List</a> </li>
                             </ul>
                         </li>
