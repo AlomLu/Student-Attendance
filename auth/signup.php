@@ -35,6 +35,85 @@
             <h3>attendance management system</h3>
         </div>
         <!-- Header area end -->
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <!-- Fetch district -->
+         <script>
+            $(document).ready(function(){
+                $('#division').change(function(){
+                    // var div_id = $(this).val();
+                    var division_id = $('#division').val();
+
+                    console.log(division_id);
+
+                    $.ajax({
+                        // url: "fetch-district.php",
+                        url: "fetch-data/fetch-district.php",
+                        method: "POST",
+                        data: {division_id: division_id},
+
+                        success: function(data){
+                            $('#selected_district').html(data);
+
+                            console.log(data);
+                        }
+                    });
+                });
+            });
+         </script>
+
+        <!-- Fetch upazila -->
+         <script>
+            $(document).ready(function(){
+                $('#selected_district').change(function(){
+                    // var div_id = $(this).val();
+                    var district_id = $('#selected_district').val();
+
+                    console.log(district_id);
+
+                    $.ajax({
+                        // url: "fetch-district.php",
+                        url: "fetch-data/fetch-upazila.php",
+                        method: "POST",
+                        data: {district_id: district_id},
+
+                        success: function(data){
+                            $('#selected_upazila').html(data);
+
+                            console.log(data);
+                        }
+                    });
+                });
+            });
+         </script>
+
+        <!-- Fetch union -->
+         <script>
+            $(document).ready(function(){
+                $('#selected_upazila').change(function(){
+                    // var div_id = $(this).val();
+                    var upazila_id = $('#selected_upazila').val();
+
+                    console.log(upazila_id);
+
+                    $.ajax({
+                        // url: "fetch-upazila.php",
+                        url: "fetch-data/fetch-union.php",
+                        method: "POST",
+                        data: {upazila_id: upazila_id},
+
+                        success: function(data){
+                            $('#selected_union').html(data);
+
+                            console.log(data);
+                        }
+                    });
+                });
+            });
+         </script>
+
          <div class="signup-area">
             <div class="signup-form">
                 <h3>sign up</h3>
@@ -246,23 +325,25 @@
                     <div class="form-group-inline">
                         <div class="form-group">
                             <label for="">division</label>
-                             <select name="division" id="">
+                             <select name="division" id="division">
                                 <option value="">Select your division</option>
-                                <option value="Sylhet">Sylhet</option>
-                                <option value="">Dhaka</option>
-                                <option value="">Barishal</option>
-                                <option value="">Chottogram</option>
+                                <?php 
+                                    $query = "SELECT * FROM tbl_division";
+                                    $division_list = $db->select($query);
+
+                                    if($division_list){
+                                        while($result = $division_list->fetch_assoc()){
+
+                                ?>
+                                <option value="<?php echo $result['id'] ?>"><?php echo ucfirst($result['div_name']) ?></option>
+                                <?php } } ?>
                              </select>
                              <?php echo isset($error_division) ? "<span class='error'>$error_division</span>" : ''; ?>
                         </div>
                         <div class="form-group">
                             <label for="">district</label>
-                            <select name="district" id="">
+                            <select name="district" id="selected_district">
                                 <option value="">Select your district</option>
-                                <option value="">Sylhet</option>
-                                <option value="Moulvi">Moulvi Bazar</option>
-                                <option value="">Habiganj</option>
-                                <option value="">Sunamganj</option>
                              </select>
                              <?php echo isset($error_district) ? "<span class='error'>$error_district</span>" : ''; ?>
                         </div>
@@ -270,21 +351,15 @@
                     <div class="form-group-inline">
                         <div class="form-group">
                             <label for="">upazila</label>
-                            <select name="upazila" id="">
+                            <select name="upazila" id="selected_upazila">
                                 <option value="">Select your upazila</option>
-                                <option value="Barlekha">Barlekha</option>
-                                <option value="">Juri</option>
-                                <option value="">Kulaura</option>
-                                <option value="">Sreemangal</option>
                              </select>
                              <?php echo isset($error_upazila) ? "<span class='error'>$error_upazila</span>" : ''; ?>
                         </div>
                         <div class="form-group">
                             <label for="">union parishad</label>
-                            <select name="union_parishad" id="">
+                            <select name="union_parishad" id="selected_union">
                                 <option value="">Select your union</option>
-                                <option value="5 No. Dakshin Shahbazpur">5 No. Dakshin Shahbazpur</option>
-                                <option value="">4 No. Uttor Shahbazpur</option>
                              </select> 
                              <?php echo isset($error_union_parishad) ? "<span class='error'>$error_union_parishad</span>" : ''; ?>
                         </div>
@@ -297,7 +372,7 @@
                                 <option value="8">Student</option>
                                 <option value="">Teacher</option>
                             </select>
-                            <?php echo isset($error_role) ? "<span class='error'>$error_role</span>" : ''; ?>
+                            <?php echo isset($error_role_id) ? "<span class='error'>$error_role_id</span>" : ''; ?>
                         </div>
                         <div class="form-group">
                             <label for="">password</label>

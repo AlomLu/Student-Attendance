@@ -30,7 +30,10 @@ form span{
     display: block;
 }
 input{
-    border: 1px solid #ddd;
+    /* border: 1px solid #ddd; */
+}
+select{
+    /* border: 1px solid #ddd; */
 }
 
 /* input{
@@ -225,12 +228,13 @@ td {
 	margin-right: 5px;
 }
 .form-group select {
-	width: 90%;
-	padding: 10px 5px;
-	border-radius: 10px;
-	border: none;
-	/* margin-bottom: 20px; */
+    width: 90%;
+    padding: 10px 5px;
+    border-radius: 10px;
+    border: none;
+    /* margin-bottom: 20px; */
     cursor: pointer;
+    border: 1px solid #ddd;
 }
 .signup-form .form-group select{
 	margin-bottom: 20px;
