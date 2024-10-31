@@ -458,15 +458,31 @@ td {
 	margin: 0 auto 20px auto;
 }
 .add-class-form .form-group {
-	width: 30%;
+	width: 50%;
 	margin: auto;
+	margin-bottom: 20px;
 }
 .add-class-form .form-group input[type="submit"]{
 	width: 90%;
 	margin: auto;
 }
+.add-class-form .form-group .single-subject{
+	display: inline;
+    float: left;
+    margin-right: 15px;
+	margin-bottom: 10px;
+}
+
+.add-class-form .form-group .single-subject input[type='checkbox']{
+	width: 20px;
+	margin-right: 5px;
+}
+.add-class-form .form-group .single-subject span{
+	display: inline;
+    text-transform: capitalize;
+}
 .add-class-form .form-group select{
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
 }
 /* Add new class area end */
 
