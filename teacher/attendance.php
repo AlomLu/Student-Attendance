@@ -96,10 +96,34 @@
             </div>
             <div class="attendance-form">
                 <h3>Attendance</h3>
+                <?php 
+                    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['attendance_status']) && isset($_POST['user_id'])){
+                        $class_id = mysqli_real_escape_string($db->link, $_POST['class_id']);
+                        $subject_id = mysqli_real_escape_string($db->link, $_POST['subject_id']);
+                        $user_data = $_POST['user_id'];
+                        $attendance_data = $_POST['attendance_status'];
+
+                        foreach($user_data as $index => $user){
+                            $sanitized_user_id = mysqli_real_escape_string($db->link, $user);
+
+                            // foreach($attendance_data as $attendance){
+                                $sanitized_attendance_status = mysqli_real_escape_string($db->link, $attendance_data[$index]);
+
+                                $query = "INSERT INTO tbl_attendance_record (user_id, class_id, subject_id, attendance_status) 
+                                VALUES ('$sanitized_user_id', '$class_id', '$subject_id', '$sanitized_attendance_status')";
+                                $db->insert($query);
+                            // }
+
+                        }
+                        echo "<script>alert('Attendance records inserted successfully');</script>";
+                    }
+
+                   
+                ?>
                 <form action="" method="POST">
                    <div class="class-section">
                         <div class="form-group">
-                            <select name="" id="class" style="margin-bottom: 30px">
+                            <select name="class_id" id="class" style="margin-bottom: 30px">
                                 <option value="">Select class</option>
                                 <?php 
                                 $user_id = Session::get('user_id');
@@ -127,7 +151,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <select name="" id="selected-class">
+                            <select name="subject_id" id="selected-class">
                                 <option value="">Select subject</option>
                             </select>
                         </div>
@@ -144,29 +168,13 @@
                            
                         </tbody>
                     </table>
+                    <div class="form-group">
+                        <input type="submit" name="submit" value="Submit">
+                    </div>
                 </form>
             </div>
             
-            <script>
-                    // var exnode = document.querySelectorAll('.status-checkbox');
-                    // console.log(exnode);
 
-                    // exnode.forEach(node=>{
-                    //     console.log(node.textContent);
-                    // });
-                
-
-                document.querySelectorAll('.status-checkbox').forEach(checkbox => {
-                    
-                    checkbox.addEventListener('change', function() {
-                        const row = this.getAttribute('data-row');
-                        console.log(row)
-                        document.querySelectorAll(`.status-checkbox[data-row="${row}"]`).forEach(cb => {
-                            if (cb !== this) cb.checked = false;
-                        });
-                    });
-                });
-            </script>
             
             
             <!-- <div class="attendance-form">

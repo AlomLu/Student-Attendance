@@ -385,11 +385,13 @@ td {
 	margin-bottom: 25px;
 }
 .attendance-form .form-group {
-	width: 50%;
-	float: left;
+    width: 50%;
+    float: left;
+    padding-top: 30px;
 }
-.attendance-form .form-group input{
-	margin-right: 15px;
+.attendance-form .form-group input {
+    margin-right: 15px;
+    border: 1px solid #ddd;
 }
 .attendance-form .form-group select{}
 

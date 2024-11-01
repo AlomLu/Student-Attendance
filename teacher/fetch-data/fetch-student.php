@@ -19,15 +19,16 @@
                 echo "
                     <tr>
                         <td>".$result['id']."</td>
-                        <td>".$result['fname']."</td>
+                        <td>".$result['fname']."<input type='hidden' name='user_id[]' value='".$result['id']."' ></td>
+                        
                         <td>
-                            <input type='checkbox' name='status' class='status-checkbox' data-row='1' >
+                            <input type='checkbox' name='attendance_status[]' class='status-checkbox' value='1' data-row='".$result['id']."' >
                         </td>
                         <td>
-                            <input type='checkbox' name='status' class='status-checkbox' data-row='1' >
+                            <input type='checkbox' name='attendance_status[]' class='status-checkbox' value='2' data-row='".$result['id']."' >
                         </td>
                         <td>
-                            <input type='checkbox' name='status' class='status-checkbox' data-row='1' >
+                            <input type='checkbox' name='attendance_status[]' class='status-checkbox' value='3' data-row='".$result['id']."' >
                         </td>
                     </tr>
                 ";
@@ -44,3 +45,16 @@
        
     }
 ?>
+<script>
+
+    document.querySelectorAll('.status-checkbox').forEach(checkbox => {
+        
+        checkbox.addEventListener('change', function() {
+            const row = this.getAttribute('data-row');
+            console.log(row)
+            document.querySelectorAll(`.status-checkbox[data-row="${row}"]`).forEach(cb => {
+                if (cb !== this) cb.checked = false;
+            });
+        });
+    });
+</script>

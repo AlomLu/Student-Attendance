@@ -196,3 +196,41 @@
         <!-- Attendance area end -->
 
 <?php include '../inc/footer.php'; ?>
+
+<?php 
+                    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                        // $error_attendance_status = '';
+
+                        // if($error_attendance_status == ''){
+                        //     $error_attendance_status = "Field must not be empty !!";
+                        // }
+
+                        $user_id = mysqli_real_escape_string($db->link, $_POST['user_id']);
+                        $class_id = mysqli_real_escape_string($db->link, $_POST['class_id']);
+                        $subject_id = mysqli_real_escape_string($db->link, $_POST['subject_id']);
+
+                        if(isset($_POST['attendance_status'])){
+                            $attendance_status_array = $_POST['attendance_status']; //Array of attendance status
+
+
+                            foreach($attendance_status_array as $attendance_status_string){
+                                $sanitized_attendance_status[] = mysqli_real_escape_string($db->link, $attendance_status_string);
+                            }
+
+                            $attendance_status = implode(',', $sanitized_attendance_status);
+
+                        }
+
+
+                        if(!empty($user_id) && !empty($class_id) && !empty($subject_id) && !empty($attendance_status)){
+                            $query = "INSERT INTO tbl_attendance_record (user_id, class_id, subject_id, attendance_status) VALUES ('$user_id', '$class_id', '$subject_id', '$attendance_status') ";
+                            $row_insert = $db->insert($query);
+
+                            if($row_insert){
+                                echo "<script>alert('successfully inserted')</script>";
+                            }else{
+                                echo "<script>alert('Something went wrong !!')</script>";
+                            }
+                        }
+                    }
+                ?>

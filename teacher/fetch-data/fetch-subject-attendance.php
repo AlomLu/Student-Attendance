@@ -31,7 +31,7 @@
     
                         if($get_subject){
                             while($result_subject = $get_subject->fetch_assoc()){
-                                echo "<option>".$result_subject['subject_name']."</option>";
+                                echo "<option value='".$result_subject['id']."'>".$result_subject['subject_name']."</option>";
                             }
                         }
                     }
