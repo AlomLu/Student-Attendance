@@ -31,7 +31,7 @@
                <?php 
                     if($_SERVER['REQUEST_METHOD'] == 'POST'){
                         $div_id = mysqli_real_escape_string($db->link, $fm->validation($_POST['div_id']));
-                        $dis_id = mysqli_real_escape_string($db->link, $fm->validation($_POST['id']));
+                        $dis_id = mysqli_real_escape_string($db->link, $fm->validation($_POST['dis_id']));
                         
                         $upazila_name = mysqli_real_escape_string($db->link, $fm->validation($_POST['upazila_name']));
                         $upazila_name = strtolower($upazila_name);

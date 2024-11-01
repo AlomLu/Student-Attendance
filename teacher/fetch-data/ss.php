@@ -24,25 +24,6 @@
                     })
                 })
             })
-            $(document).ready(function(){
-                $('#class').change(function(){
-                    // var class_id = $(this).val();
-
-                    var class_id = $('#class').val();
-                    console.log(class_id);
-
-                    $.ajax({
-                        url: "fetch-data/fetch-student.php",
-                        method: "POST",
-                        data: {class_id: class_id},
-                        success: function(data){
-                            $('#student').html(data);
-
-                            console.log(data);
-                        }
-                    })
-                })
-            })
         </script>
             <div class="about">
                 <h3><?php echo Session::get('user_fname').' '.Session::get('user_lname').' '.Session::get('user_id') ?></h3>
@@ -140,8 +121,30 @@
                             <th width="15%">Absent</th>
                             <th width="15%">Holiday</th>
                         </tr>
-                        <tbody id="student">
-                           
+                        <tbody>
+                            <?php 
+                                $query = "SELECT * FROM tbl_user WHERE class_id = '14'";
+                                $student_list = $db->select($query);
+                                
+                                if($student_list){
+                                    while($result = $student_list->fetch_assoc()){
+
+                            ?>
+                            <tr>
+                                <td><?php echo $result['id'] ?></td>
+                                <td><?php echo $result['fname'] ?></td>
+                                <td>
+                                    <input type="checkbox" name="status" class="status-checkbox" data-row="1">
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="status" class="status-checkbox" data-row="1">
+                                </td>
+                                <td>
+                                    <input type="checkbox" name="status" class="status-checkbox" data-row="1">
+                                </td>
+                            </tr>
+                            <?php } } ?>
+                            </tr>
                         </tbody>
                     </table>
                 </form>

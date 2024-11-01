@@ -33,12 +33,32 @@
                             }
                         }
                     ?>
+                    <?php 
+                        $query = "SELECT tbl_user.*, tbl_class.class FROM tbl_user
+                                    INNER JOIN tbl_class
+                                    ON tbl_user.class_id = tbl_class.id
+                                    WHERE tbl_user.id = '$user_id'
+                                    ";
+                        $class = $db->select($query);
+
+                        if($class){
+                            while($get_class = $class->fetch_assoc()){
+
+                    ?>
                     <form action="" method="POST">
                         <div class="form-group">
                             <label for="">class</label>
                             <!-- <input type="text" name="class" value="Enter your class"> -->
                             <select name="class_id" id="">
-                                <option value="">Select your class</option>
+                                <option value="">
+                                    <!-- <?php
+                                        // if(Session::get('user_class') == '0'){
+                                        //     echo "Select your class";
+                                        // }else{
+                                            echo $get_class['class'];
+                                        // }
+                                    ?> -->
+                                </option>
                                 <?php 
                                     $query = "SELECT * FROM tbl_class";
                                     $class_list = $db->select($query);
@@ -55,6 +75,7 @@
                             <input type="submit" name="submit" value="save">
                         </div>
                     </form>
+                    <?php } } ?>
                     <!-- <div class="form-group">
                         <label for="">section</label>
                         <input type="text" name="section" value="">

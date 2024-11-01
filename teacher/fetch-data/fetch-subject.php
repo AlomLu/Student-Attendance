@@ -1,6 +1,8 @@
 <?php 
     // include '../Config/config.php';
     // include '../lib/Database.php';
+    // include '../../lib/Session.php';
+    // Session::checkSession();
 
     include '../../Config/config.php';
     include '../../lib/Database.php';
@@ -26,7 +28,7 @@
                     if($subject_list){
                         while($result = $subject_list->fetch_assoc()){
                             // echo "<option>".$result['subject_name']."</option>";
-                            echo "<div class='single-subject'><input type='checkbox'><span>".$result['subject_name']."</span></div>";
+                            echo "<div class='single-subject'><input type='checkbox' name='subject_id[]' value='".$result['id']."'><span>".$result['subject_name']."</span></div>";
                         }
                     }
                 }

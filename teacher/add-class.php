@@ -26,11 +26,59 @@
                     })
                 })
             </script>
+
+            <?php 
+                if($_SERVER['REQUEST_METHOD'] == 'POST'){
+                    $error_class = '';
+                    $error_subject = '';
+                    // $msg = '';
+
+                    $user_id = Session::get('user_id');
+                    $user_id = mysqli_real_escape_string($db->link, $user_id);
+
+                    $class_id = mysqli_real_escape_string($db->link, $_POST['class_id']);
+
+                    $subject_id_string = [];
+                    if(isset($_POST['subject_id'])){
+                        $subject_ids = $_POST['subject_id']; //Array of subject_id
+                        $sanitized_subject_id = [];
+
+                        foreach($subject_ids as $subject_id){
+                            $sanitized_subject_id[] = mysqli_real_escape_string($db->link, $subject_id);
+
+                        }
+                        $subject_id_string = implode(',', $sanitized_subject_id);
+                    }
+
+                    if($class_id == ''){
+                        $error_class = "Field must not be empty";
+                    }
+                    if($subject_id_string == ''){
+                        $error_subject = "Field must not be empty";
+                    }
+
+                    if(!empty($class_id) || !empty($subject_id_string)){
+                        $query = "INSERT INTO tbl_teacher (user_id, class_id, subject_id) VALUES('$user_id', '$class_id', '$subject_id_string') ";
+                        $row_insert = $db->insert($query);
+
+                        if($row_insert){
+                            echo "Class inserted successfully";
+                            // $msg = "Class inserted successfully";
+                        }else{
+                            echo "Class not inserted";
+                            // $msg = "Class not inserted";
+                        }
+                    }
+
+
+                }
+            ?>
+
             <div class="add-class-form">
                 <form action="" method="POST">
                     <div class="form-group">
                         <label for="">class</label>
-                        <select name="class" id="class">
+                        <select name="class_id" id="class">
                             <option value="">Selec a class</option>
                             <?php 
                                  $query = "SELECT * FROM tbl_class";
@@ -43,19 +91,16 @@
                             <option value="<?php echo $result['id'] ?>"><?php echo $result['class'] ?></option>
                             <?php } } ?>
                         </select>
+                        <?php 
+                            echo isset($error_class) ? $error_class : '' ;
+                        ?>
                     </div>
                     <div class="form-group" id="selected-class">
                         <label for="">subject</label>
-                        <!-- <div class="subject">
-                            <div class="single-subject">
-
-                            </div>
-                        </div> -->
-                        <!-- <select name="" id="selected-class">
-                            <option value="">select subject</option>
-                        </select> -->
-                        <!-- <input type="checkbox" name="" id="selected-class"> -->
                     </div>
+                        <?php 
+                            echo isset($error_subject) ? $error_subject : '' ;
+                        ?>
                     <!-- <div class="form-group">
                         <label for="">section</label>
                         <select name="section" id="">

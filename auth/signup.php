@@ -217,6 +217,7 @@
 
                             //Insert
                             if(!empty($fname) && !empty($lname) && !empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($mobile_number) && strlen($mobile_number) >10 && !empty($gender) && !empty($birthday) && !empty($division) && !empty($district) && !empty($upazila) && !empty($union_parishad) && !empty($role_id) && !empty($password) && strlen($password) >= 5){
+                            // if(!empty($fname) && !empty($lname) && !empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($mobile_number) && strlen($mobile_number) >10 && !empty($gender) && !empty($birthday) && !empty($division) && !empty($district) && !empty($role_id) && !empty($password) && strlen($password) >= 5){
                                 $password = md5($password);
 
                                 $_SESSION['user_data'] = [

@@ -82,8 +82,8 @@
 
                            switch(Session::get('user_role_id')){
                             case '1':
-                                // header('Location: ../student/student-dashboard.php');
-                                header('Location: ../student/class.php');
+                                header('Location: ../student/student-dashboard.php');
+                                // header('Location: ../student/class.php');
                                 exit();
                             case '2':
                                 header('Location: ../teacher/teacher-dashboard.php');

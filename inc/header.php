@@ -64,7 +64,7 @@
                         }
                     ?>
 
-                    <li><a href=""><?php echo Session::get('user_lname') ?></a></li>
+                    <li><a href=""><?php echo Session::get('user_fname') ?></a></li>
                     <li>
                         <?php 
                             if(isset($_GET['action']) && $_GET['action'] == 'logout'){
