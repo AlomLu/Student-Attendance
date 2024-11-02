@@ -1,3 +1,8 @@
+
+
+
+
+
 <?php 
     include '../../lib/Session.php';
     Session::init();
@@ -26,13 +31,26 @@
                     $subject_array = explode(',', $get_subject_id_string);
 
                     foreach($subject_array as $subject_id){
-                        $query_subject = "SELECT * FROM tbl_subject WHERE id = '$subject_id' ";
-                        $get_subject = $db->select($query_subject);
-    
-                        if($get_subject){
-                            while($result_subject = $get_subject->fetch_assoc()){
-                                echo "<option value='".$result_subject['id']."'>".$result_subject['subject_name']."</option>";
-                            }
+
+                            $current_date = new DateTime("now", new DateTimeZone("Asia/Dhaka")) ;
+                            $current_date = $current_date->format("F d, Y") ;
+                            $attendance_check_query = "SELECT * FROM tbl_attendance_record WHERE class_id = '$class_id' AND subject_id = '$subject_id' AND date = '$current_date'";
+                            // $attendance_check_query = "SELECT * FROM tbl_attendance_record WHERE class_id = '$class_id' AND subject_id = '$subject_id' AND $date = '$current_date' ";
+                            $attendance_record = $db->select($attendance_check_query);
+
+
+                            if(!$attendance_record){
+                                $query_subject = "SELECT * FROM tbl_subject WHERE id = '$subject_id' ";
+                                $get_subject = $db->select($query_subject);
+                                
+                                if($get_subject){
+                                    while($result_subject = $get_subject->fetch_assoc()){
+                                
+                                        echo "<option value='".$result_subject['id']."'>".$result_subject['subject_name']."</option>";
+                                    }
+                                }
+                                  
+                         
                         }
                     }
                 }
