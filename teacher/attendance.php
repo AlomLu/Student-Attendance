@@ -215,6 +215,14 @@
                                 }
 
                                 foreach ($subject_ids as $subject_id) {
+
+                                    $attendance_check_query = "SELECT * FROM tbl_attendance_record WHERE class_id = '$class_id' AND subject_id = '$subject_id' ";
+                                    $attendance_result = $db->select($attendance_check_query);
+
+                                    if($attendance_result){
+
+                                    
+
                                     // Fetch subject name
                                     $query_subject_name = "SELECT subject_name FROM tbl_subject WHERE id = '$subject_id'";
                                     $subject_result = $db->select($query_subject_name);
@@ -234,7 +242,7 @@
 
                                      // Count Absent for each subject
                                     $absent_query = "SELECT COUNT(*) AS absent_count FROM tbl_attendance_record
-                                                WHERE teacher_id = '$user_id' AND class_id = '$class_id' AND subject_id = '$subject_id' AND attendance_status = '2' AND attendance_status = '1' AND date = '$current_date' ";
+                                                WHERE teacher_id = '$user_id' AND class_id = '$class_id' AND subject_id = '$subject_id' AND attendance_status = '2' AND attendance_status = '2' AND date = '$current_date' ";
                                     
                                     $absent_result = $db->select($absent_query);
                                     if($absent_result){
@@ -243,7 +251,7 @@
 
                                      // Count Holiday for each subject
                                     $holiday_query = "SELECT COUNT(*) AS holiday_count FROM tbl_attendance_record
-                                                WHERE teacher_id = '$user_id' AND class_id = '$class_id' AND subject_id = '$subject_id' AND attendance_status = '3' AND attendance_status = '1' AND date = '$current_date' ";
+                                                WHERE teacher_id = '$user_id' AND class_id = '$class_id' AND subject_id = '$subject_id' AND attendance_status = '3' AND attendance_status = '3' AND date = '$current_date' ";
                                     
                                     $holiday_result = $db->select($holiday_query);
                                     if($holiday_result){
@@ -270,18 +278,15 @@
                                         <td style="font-weight: bold"><?php echo $total_student_count; ?></td>
                                     </tr>
                                     
-                                    <?php
-                                }
-                            }
-                        } else {
-                            echo "<tr><td colspan='6'>No data available</td></tr>";
-                        }
-                    ?>
+                    <?php } } } }?>
 
                     </tbody>
                 </table>
             </div>
             
+            <!-- else {
+                            echo "<tr><td colspan='6'>No data available</td></tr>";
+                        } -->
 
             
             
