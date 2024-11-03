@@ -3,6 +3,16 @@
         <!-- Attendance record area start -->
         <div class="attendance-record-section">
             <h3>your attendance record</h3>
+            <?php 
+                // echo $fm->lastSevenDate();
+            //     $current_date = new DateTime("now", new DateTimeZone("Asia/Dhaka"));
+                
+            //    echo $date_list_string =  $fm->lastSevenDate($current_date);
+            //     $date_list_string =  $fm->lastSevenDate($current_date);
+
+            //     $date_lists = explode('.', $date_list_string);
+
+            ?>
             <div class="attendance-record">
                 <table>
                     <th>Date</th>
@@ -14,6 +24,7 @@
                     <th>Total Student</th>
                     <tbody>
                         <?php 
+
                             $user_id = Session::get('user_id');
                             $current_date = new DateTime("now", new DateTimeZone("Asia/Dhaka"));
                             $current_date = $current_date->format("F d, Y");
@@ -49,8 +60,17 @@
                                             $subject_name = $subject_list->fetch_assoc()['subject_name'];
                                         }
 
+                                        // $current_date = new DateTime("now", new DateTimeZone("Asia/Dhaka"));
+                                        // $date_list_string =  $fm->lastSevenDate($current_date);
+                                        // $date_lists = explode('.', $date_list_string);
+
+                                        // foreach($date_lists as $get_date){
+
+                                        
+
+
                                         // Present Count for each subject
-                                        $present_query = "SELECT COUNT(*) AS present_count FROM tbl_attendance_record WHERE teacher_id ='$user_id' AND class_id ='$class_id' AND subject_id ='$subject_id' AND attendance_status ='1' AND date = '$current_date'";
+                                        $present_query = "SELECT COUNT(*) AS present_count FROM tbl_attendance_record WHERE teacher_id ='$user_id' AND class_id ='$class_id' AND subject_id ='$subject_id' AND attendance_status ='1' AND date = '$current_date' ";
                                         $present_result = $db->select($present_query);
 
                                         if($present_result){
@@ -58,7 +78,7 @@
                                         }
 
                                         // Absent Count for each subject
-                                        $absent_query = "SELECT COUNT(*) AS absent_count FROM tbl_attendance_record WHERE teacher_id ='$user_id' AND class_id ='$class_id' AND subject_id ='$subject_id' AND attendance_status ='2' AND date = '$current_date'";
+                                        $absent_query = "SELECT COUNT(*) AS absent_count FROM tbl_attendance_record WHERE teacher_id ='$user_id' AND class_id ='$class_id' AND subject_id ='$subject_id' AND attendance_status ='2' AND date = '$current_date'  ";
                                         $absent_result = $db->select($absent_query);
 
                                         if($absent_result){
@@ -66,7 +86,7 @@
                                         }
 
                                         // Holiday Count for each subject
-                                        $holiday_query = "SELECT COUNT(*) AS holiday_count FROM tbl_attendance_record WHERE teacher_id ='$user_id' AND class_id ='$class_id' AND subject_id ='$subject_id' AND attendance_status ='3' AND date = '$current_date'";
+                                        $holiday_query = "SELECT COUNT(*) AS holiday_count FROM tbl_attendance_record WHERE teacher_id ='$user_id' AND class_id ='$class_id' AND subject_id ='$subject_id' AND attendance_status ='3' AND date = '$current_date'  ";
                                         $holiday_result = $db->select($holiday_query);
 
                                         if($holiday_result){
@@ -91,7 +111,7 @@
                             <td><?php echo $holiday_count ?></td>
                             <td><?php echo $total_student_count ?></td>
                         </tr>
-                        <?php } } } }?>
+                        <?php } } } } ?>
                     </tbody>
                 </table>
             </div>

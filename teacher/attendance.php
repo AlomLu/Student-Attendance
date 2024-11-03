@@ -216,7 +216,7 @@
 
                                 foreach ($subject_ids as $subject_id) {
 
-                                    $attendance_check_query = "SELECT * FROM tbl_attendance_record WHERE class_id = '$class_id' AND subject_id = '$subject_id' ";
+                                    $attendance_check_query = "SELECT * FROM tbl_attendance_record WHERE class_id = '$class_id' AND subject_id = '$subject_id' AND date = '$current_date'";
                                     $attendance_result = $db->select($attendance_check_query);
 
                                     if($attendance_result){
