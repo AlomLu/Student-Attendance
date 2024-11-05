@@ -15,36 +15,35 @@
             return $data;
         }
 
-        public function lastSevenDate($current_date){
-            // $currenDate = new DateTime("now", new DateTimeZone("Asia/Dhaka"));
+        
+        public function currentDate(){
+            $currenDate = new DateTime("now", new DateTimeZone("Asia/Dhaka"));
 
-            // $currenDate_format = $currenDate->format("F d, Y");
-            $currenDate_format = $current_date->format("F d, Y");
+            // $currenDate= $currenDate->format("Y-m-d");
+            $currenDate= $currenDate->format("F d, Y");
+            return $currenDate;
 
-            $currenDate_array = explode(',', $currenDate_format);
-            $currenDtate_string = $currenDate_array['0'];
-            $year = $currenDate_array['1'];
-
-            $date_array = explode(' ', $currenDtate_string);
-
-            $month =  $date_array[0];
-            $date =  $date_array[1];
-            // $date = '3';
-            $loopLimit = $date-2;  
-
-            $dates = [];
-            for($date; $date > $loopLimit; $date--){
-                $dates[] = "$month $date, $year";
-                // for($i = 0; $i >= -5; $i--){
-                   
-                // }
-                // return implode(',', $is);
-            }
+            // $currenDate_array = explode('-', $date_format);
+            // $year = $currenDate_array['0'];
+            // $month =  $currenDate_array[1];
+            // $date =  $currenDate_array[2];
             
-            return implode('.', $dates);
-          
-            
-            
+            // return [ $year, $month, $date];
         }
+
+        public function selectedDate($selelcted_date){
+
+            // $selectedDate = date("Y-m-d", strtotime($selelcted_date));
+            $selectedDate = date("F d, Y", strtotime($selelcted_date));
+            return $selectedDate;
+
+            // $selelcted_date_array = explode('-', $selected_date);
+            // $year = $selelcted_date_array[0];
+            // $month = $selelcted_date_array[1];
+            // $date = $selelcted_date_array[2];
+
+            // return [$year, $month, $date];
+        }
+
     }
 ?>

@@ -412,6 +412,18 @@ td {
     border: 1px solid black;
     padding: 20px;
 }
+.studnet-attendance-record {
+    margin-bottom: 30px;
+    padding: 0 48px;
+}
+.studnet-attendance-record table tr {
+    border: 1px solid teal;
+}
+.studnet-attendance-record table tr td{
+    border: 1px solid teal;
+    padding: 20px;
+}
+
 /* .student-record table tr td:first-of-type{
 	padding: 15px;
 }
@@ -471,6 +483,31 @@ td {
 	border-left: 1px solid red;
 	padding-left: 5px;
 	text-transform: capitalize;
+}
+.attendance-record-section .form-group {
+    text-align: center;
+    margin-bottom: 25px;
+    width: 92%;
+}
+.attendance-record-section .form-group:last-of-type {
+    margin-bottom: 50px;
+    width: 92%;
+}
+.attendance-record-section .form-group input[type="date"] {
+    width: 18%;
+    border: 1px solid #ddd;
+}.attendance-record-section .form-group input[type="submit"] {
+    width: 30%;
+    border: 1px solid #ddd;
+}
+.attendance-record-section .form-group label {
+    display: inline;
+    margin-right: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+.attendance-record-section .form-group input[type="date"]{
+
 }
 .attendance-record{
     width: 90%;
