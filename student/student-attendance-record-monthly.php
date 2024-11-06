@@ -49,26 +49,11 @@
                     </select>
                 </div>
              </form>
-            <div class="studnet-attendance-record-monthly">
+            <div id="studnet-attendance-record-monthly" class="studnet-attendance-record-monthly">
                
-                <h3>
-                    <?php 
-                        
-                        echo $fm->currentMonth();
-                    ?>
-                </h3>
 
-                <table>
-                    <th>Date</th>
-                    <th>Class</th>
-                    <th>Teacher</th>
-                    <th>Present</th>
-                    <th>Absent</th>
-                    <th>Holiday</th>
-                    <tbody id="studnet-attendance-record-monthly">
                       
-                    </tbody>
-                </table>
+
             </div>
         </div>
         <!-- Attendance record area end -->

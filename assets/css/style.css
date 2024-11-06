@@ -235,6 +235,7 @@ td {
     /* margin-bottom: 20px; */
     cursor: pointer;
     border: 1px solid #ddd;
+	cursor: pointer;
 }
 .signup-form .form-group select{
 	margin-bottom: 20px;
@@ -422,6 +423,9 @@ td {
 .studnet-attendance-record table tr td, .studnet-attendance-record-monthly table tr td{
     border: 1px solid teal;
     padding: 20px;
+}
+.studnet-attendance-record table tr td:last-of-type, .studnet-attendance-record-monthly table tr td:last-of-type{
+    border: none;
 }
 
 /* .student-record table tr td:first-of-type{
