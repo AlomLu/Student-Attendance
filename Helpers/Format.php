@@ -45,5 +45,12 @@
             // return [$year, $month, $date];
         }
 
+        public function currentMonth(){
+            $current_month = new DateTime("now", new DateTimeZone("Asia/Dhaka"));
+            $current_month = $current_month->format("F");
+
+            return $current_month;
+        }
+
     }
 ?>

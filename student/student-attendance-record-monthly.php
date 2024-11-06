@@ -5,28 +5,6 @@
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-            <!-- Date -->
-            <script>
-                $(document).ready(function(){
-                    $('#select_date').change(function(){
-                        var selected_date = $(this).val();
-                        
-                        console.log(selected_date);
-
-                        $.ajax({
-                            url: "fetch-data/fetch-studnet-attendance-record.php",
-                            method: "POST",
-                            data: {selected_date: selected_date},
-
-                            success: function(data){
-                                $('#studnet-attendance-record').html(data);
-                                console.log(data);
-                            }
-                        });
-                    });
-                });
-            </script>
-
             <!-- Month -->
             <script>
                 $(document).ready(function(){
@@ -49,25 +27,46 @@
                 });
             </script>
             <h3>your attendance record</h3>
-            
-            <!-- Date -->
-             <form action="" method="POST" class="view-attendance">
-                <div class="form-group">
-                    <label for="" style="display: block">select date</label>
-                    <input type="date" name="date_pick"  id="select_date">
+             <form action="" method="POST">
+
+                <!-- Month -->
+                <div class="form-group monthly-record">
+                    <label for="" style="display: block">select month</label>
+                    <select name="current_month_year" id="current_month_year">
+                        <option value="">Select Month</option>
+                        <?php 
+                            $currentYear = date("Y");
+                            $month_query = "SELECT * FROM tbl_month";
+                            $month_result = $db->select($month_query);
+
+                            if($month_result->num_rows > 0){
+                                while($result = $month_result->fetch_assoc()){
+
+                             
+                        ?>
+                            <option value="<?php echo $result['month'].' '.$currentYear?>"><?php echo $result['month'] ?></option>
+                        <?php } } ?>
+                    </select>
                 </div>
-                <a href="student-attendance-record-monthly.php">View Monthly Attendance Record</a>
              </form>
-            <div class="studnet-attendance-record">
+            <div class="studnet-attendance-record-monthly">
+               
+                <h3>
+                    <?php 
+                        
+                        echo $fm->currentMonth();
+                    ?>
+                </h3>
+
                 <table>
                     <th>Date</th>
+                    <th>Class</th>
                     <th>Teacher</th>
                     <th>Present</th>
                     <th>Absent</th>
-                    <th>Holiday</th> 
-                    <!-- tbl_attendance_record -->
-                    <tbody id="studnet-attendance-record">
-                       
+                    <th>Holiday</th>
+                    <tbody id="studnet-attendance-record-monthly">
+                      
                     </tbody>
                 </table>
             </div>
