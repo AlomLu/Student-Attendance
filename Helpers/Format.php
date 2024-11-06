@@ -23,26 +23,28 @@
             $currenDate= $currenDate->format("F d, Y");
             return $currenDate;
 
-            // $currenDate_array = explode('-', $date_format);
-            // $year = $currenDate_array['0'];
-            // $month =  $currenDate_array[1];
-            // $date =  $currenDate_array[2];
-            
-            // return [ $year, $month, $date];
+        
         }
 
-        public function selectedDate($selelcted_date){
+        // public function selectedDate($selelcted_date){
 
-            // $selectedDate = date("Y-m-d", strtotime($selelcted_date));
-            $selectedDate = date("F d, Y", strtotime($selelcted_date));
-            return $selectedDate;
+        //     // $selectedDate = date("Y-m-d", strtotime($selelcted_date));
+        //     $selectedDate = date("F d, Y", strtotime($selelcted_date));
+        //     return $selectedDate;
 
-            // $selelcted_date_array = explode('-', $selected_date);
-            // $year = $selelcted_date_array[0];
-            // $month = $selelcted_date_array[1];
-            // $date = $selelcted_date_array[2];
+        //     // $selelcted_date_array = explode('-', $selected_date);
+        //     // $year = $selelcted_date_array[0];
+        //     // $month = $selelcted_date_array[1];
+        //     // $date = $selelcted_date_array[2];
 
-            // return [$year, $month, $date];
+        //     // return [$year, $month, $date];
+        // }
+
+        public function dateMontYearFormat($date){
+            $date = strtotime($date);
+            $dateMonthYear = date("F d Y", $date);
+
+            return $dateMonthYear;
         }
 
         public function currentMonth(){

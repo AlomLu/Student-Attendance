@@ -10,6 +10,7 @@
                 $(document).ready(function(){
                     $('#select_date').change(function(){
                         var selected_date = $(this).val();
+                        // var selected_date = dateMonthYearFormat(selected_date);
                         
                         console.log(selected_date);
 
@@ -27,28 +28,15 @@
                 });
             </script>
 
-            <!-- Month -->
-            <script>
-                $(document).ready(function(){
-                    $('#current_month_year').change(function(){
-                        var selected_month = $(this).val();
-                        
-                        console.log(selected_month);
-
-                        $.ajax({
-                            url: "fetch-data/fetch-studnet-attendance-record-monthly.php",
-                            method: "POST",
-                            data: {selected_month: selected_month},
-
-                            success: function(data){
-                                $('#studnet-attendance-record-monthly').html(data);
-                                console.log(data);
-                            }
-                        });
-                    });
-                });
-            </script>
             <h3>your attendance record</h3>
+
+            <?php 
+                // $dd = new DateTime("now", new DateTimeZone("Asia/Dhaka"));
+                // $dd = "2024-11-06";
+                // echo $dd = $fm->dateMontYearFormat($dd);
+
+                
+            ?>
             
             <!-- Date -->
              <form action="" method="POST" class="view-attendance">

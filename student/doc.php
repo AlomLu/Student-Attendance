@@ -201,61 +201,123 @@
 
 
     <?php 
-                            $currentMonthYear = date("F Y");
+    include '../../lib/Session.php';
+    Session::init();
 
-                            // Define the query to select records from the current month
-                            $query = "SELECT tbl_attendance_record.*, tbl_user.*, tbl_subject.*, tbl_class.* FROM tbl_attendance_record 
-                            INNER JOIN tbl_user
-                            ON tbl_attendance_record.teacher_id = tbl_user.id
+    include '../../Config/config.php';
+    include '../../lib/Database.php';
+    include '../../Helpers/Format.php';
 
-                            INNER JOIN tbl_subject
-                            ON tbl_attendance_record.subject_id = tbl_subject.id
+    $db = new Database();
+    $fm = new Format();
 
-                            INNER JOIN tbl_class
-                            ON tbl_attendance_record.class_id = tbl_class.id
-                            
-                            
-                             WHERE tbl_attendance_record.user_id = '$student_id' AND
-                             DATE_FORMAT(created_at, '%M %Y') = '$currentMonthYear'";
+    if(isset($_POST['selected_date'])){
 
-                            $month_attendance_result = $db->select($query);
+        $selected_date = $_POST['selected_date'];
+        $selected_date = $fm->dateFormat($selected_date);
+        
+        $student_id = Session::get('user_id');
 
-                            // print_r($month_attendance_result);
+        // echo $fm->selectedDay($selected_date);
 
-                            if($month_attendance_result){
-                                $i = 0;
-                                while($result = $month_attendance_result->fetch_assoc()){
-                                    // print_r($result);
+        // $selected_date = $fm->currentDate();
 
-                                $i++;
-                            
-                        ?>
-                        <tr>
-                            <td><?php echo $result['date'];?></td>
-                            <td><?php echo $result['class'];?></td>
-                            <td><?php echo $result['fname'].' '.$result['lname']?></td>
-                            <td>
-                                <?php 
-                                    if($result['attendance_status'] == '1'){
-                                        echo $result['subject_name'];
-                                    }
-                                ?>
-                            </td>
-                            <td>
-                                <?php 
-                                    if($result['attendance_status'] == '2'){
-                                        echo $result['subject_name'];
-                                    }
-                                ?>
-                            </td>
-                            <td>
-                                <?php 
-                                    if($result['attendance_status'] == '3'){
-                                        echo $result['subject_name'];
-                                    }
-                                ?>
-                            </td>
-                        </tr>
-                        <?php } }else{ ?>
-                            <tr><td><?php echo "no records found"; ?></td></tr>
-                        <?php } ?>
+
+        $student_query = "SELECT * FROM tbl_attendance_record WHERE user_id = '$student_id' AND date = '$selected_date' ";
+        $studnet_result = $db->select($student_query);
+        if($studnet_result){
+            while($student_details = $studnet_result->fetch_assoc()){
+                // $date = $student_details['date'];
+                $teacher_id = $student_details['teacher_id'];
+                $subject_id = $student_details['subject_id'];
+                // $presentCheck_query=1;
+
+                // Teacher name
+                $teacher_query = "SELECT * FROM tbl_teacher WHERE user_id = '$teacher_id' ";
+                $teacher_result = $db->select($teacher_query);
+
+                if($teacher_result){
+
+                    $teacher_id = $teacher_result->fetch_assoc()['user_id'];
+
+                    $teacher_name_query = "SELECT * FROM tbl_user WHERE id = '$teacher_id' ";
+                    $teacher_name_result = $db->select($teacher_name_query);
+                    if($teacher_name_result){
+                        $row = $teacher_name_result->fetch_assoc();
+                        $teacher_name = ucfirst($row['fname'].' '.$row['lname']);
+                    }
+                }
+  echo "<tr>
+        <td>".$selected_date."</td>
+        <td>".$teacher_name."</td>
+        <td>";
+                $presentCheck_query = "SELECT * FROM tbl_attendance_record WHERE user_id = '$student_id' AND subject_id = '$subject_id' AND date = '$selected_date' AND attendance_status ='1' ";
+                $present_result = $db->select($presentCheck_query);
+
+                if($present_result){
+                    while($get_id = $present_result->fetch_assoc()){
+                        $id = $get_id['subject_id'];
+
+                        $query_subject_name = "SELECT * FROM tbl_subject WHERE id = '$id' ";
+                        $subject_name_result = $db->select($query_subject_name);
+
+                        if($subject_name_result){
+                            echo ucfirst($subject_name_result->fetch_assoc()['subject_name']);
+                        }
+                    }
+                }
+       echo  "</td>
+        <td>";
+                $presentCheck_query = "SELECT * FROM tbl_attendance_record WHERE user_id = '$student_id' AND subject_id = '$subject_id' AND date = '$selected_date' AND attendance_status ='2' ";
+                $present_result = $db->select($presentCheck_query);
+
+                if($present_result){
+                    while($get_id = $present_result->fetch_assoc()){
+                        $id = $get_id['subject_id'];
+
+                        $query_subject_name = "SELECT * FROM tbl_subject WHERE id = '$id' ";
+                        $subject_name_result = $db->select($query_subject_name);
+
+                        if($subject_name_result){
+                            echo ucfirst($subject_name_result->fetch_assoc()['subject_name']);
+                        }
+                    }
+                }
+       echo  "</td>
+        <td>";
+                $presentCheck_query = "SELECT * FROM tbl_attendance_record WHERE user_id = '$student_id' AND subject_id = '$subject_id' AND date = '$selected_date' AND attendance_status ='3' ";
+                $present_result = $db->select($presentCheck_query);
+
+                if($present_result){
+                    while($get_id = $present_result->fetch_assoc()){
+                        $id = $get_id['subject_id'];
+
+                        $query_subject_name = "SELECT * FROM tbl_subject WHERE id = '$id' ";
+                        $subject_name_result = $db->select($query_subject_name);
+
+                        if($subject_name_result){
+                            echo ucfirst($subject_name_result->fetch_assoc()['subject_name']);
+                        }
+                    }
+                }
+        
+       echo "</td>
+    </tr>";
+    } }else{        
+
+        // $currentDate = $fm->currentDate();
+        // $selectedDate = $fm->selectedDate($selected_date);
+
+        // echo "<tr><td>";
+        //     if($selectedDate > $currentDate){
+        //         echo "The selected date has not yet arrived.";
+        //     }elseif($selectedDate < $currentDate){
+        //         echo "Attendance records for past dates are not available.";
+        //     }elseif($selectedDate == $currentDate){
+        //         echo "The teacher has not submitted today's attendance yet.";
+        //     }
+            
+        // echo"</td></tr>";
+    } }
+?>
+
