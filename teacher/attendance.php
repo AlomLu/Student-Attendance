@@ -105,30 +105,52 @@
                 <h3>Attendance</h3>
                 <?php 
                     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['attendance_status']) && isset($_POST['user_id'])){
+                        $error_class = '';
+                        $error_subject = '';
+                        $error_attendance = '';
+                       
+                            
                         $class_id = mysqli_real_escape_string($db->link, $_POST['class_id']);
                         $subject_id = mysqli_real_escape_string($db->link, $_POST['subject_id']);
                         $teacher_id = mysqli_real_escape_string($db->link, $_POST['teacher_id']);
                         $date = new DateTime("now", new DateTimeZone("Asia/Dhaka"));
                         $date = $date->format("F d, Y");
-                        $user_data = $_POST['user_id']; //Array fof user_id
+
+                        $user_data = $_POST['user_id']; //Array for user_id
                         $attendance_data = $_POST['attendance_status']; //Array of attendance_status
 
-                        foreach($user_data as $index => $user){
-                            $sanitized_user_id = mysqli_real_escape_string($db->link, $user);
+                        if($class_id == ''){
+                            $error_class = "Field must not be empty !!";
+                        }
+                        if($subject_id == ''){
+                            $error_class = "Field must not be empty !!";
+                        }
 
-                            // foreach($attendance_data as $attendance){
+                        if(!empty($class_id) && !empty($subject_id)){
+                            foreach($user_data as $index => $user){
+                                $sanitized_user_id = mysqli_real_escape_string($db->link, $user);
+
                                 $sanitized_attendance_status = mysqli_real_escape_string($db->link, $attendance_data[$index]);
 
-                                $query = "INSERT INTO tbl_attendance_record (user_id, class_id, subject_id, attendance_status, teacher_id, date) 
-                                VALUES ('$sanitized_user_id', '$class_id', '$subject_id', '$sanitized_attendance_status', '$teacher_id', '$date')";
-                                $db->insert($query);
-                            // }
+                                if($sanitized_attendance_status == ''){
+                                    $error_attendance = "Field must not be empty !!";
+                                }
 
+                                // if(!empty($sanitized_attendance_status)){
+                                    $query = "INSERT INTO tbl_attendance_record (user_id, class_id, subject_id, attendance_status, teacher_id, date) 
+                                    VALUES ('$sanitized_user_id', '$class_id', '$subject_id', '$sanitized_attendance_status', '$teacher_id', '$date')";
+                                    $result = $db->insert($query);
+
+                                    if($result){
+                                        echo "<script>alert('Attendance  records inserted successfully');</script>";
+                                    }else{
+                                        echo "<script>alert('Attendance  records not inserted');</script>";
+                                    }
+                                // }
+                            }
                         }
-                        echo "<script>alert('Attendance records inserted successfully');</script>";
                     }
-
-                   
+                    
                 ?>
                 <form action="" method="POST">
                    <div class="class-section">
@@ -160,11 +182,21 @@
                                 }
                             ?>
                             </select>
+                            <?php 
+                                if(!empty($error_class)){
+                                    echo $error_class;
+                                }
+                            ?>
                         </div>
                         <div class="form-group">
                             <select name="subject_id" id="selected-class">
                                 <option value="">Select subject</option>
                             </select>
+                            <?php 
+                                if(!empty($error_subject)){
+                                    echo $error_subject;
+                                }
+                            ?>
                         </div>
                    </div>
                     <table>
@@ -196,89 +228,54 @@
                         <th width="15%">Total Student</th>
                     </tr>
                     <tbody>
-                    <?php 
-                        // Fetch classes associated with the teacher
-                        $query_classes = "SELECT * FROM tbl_teacher WHERE user_id = '$user_id'";
-                        $teacher_classes = $db->select($query_classes);
+                        <?php 
+                            $teacher_id = Session::get('user_id');
+                            $current_date_month_year = $fm->currentDateMonthYear(); 
+                            $attendance_check_query = "SELECT 
+                                                        tbl_attendance_record.teacher_id, 
+                                                        tbl_attendance_record.class_id,
+                                                        tbl_attendance_record.subject_id,
+                                                        tbl_attendance_record.*,   
+                                                        tbl_subject.*,
+                                                        tbl_class.*,
+                                                        COUNT(*) as count,
 
-                        if ($teacher_classes) {
-                            while ($teacher_class = $teacher_classes->fetch_assoc()) {
-                                $class_id = $teacher_class['class_id'];
-                                $subject_ids = explode(',', $teacher_class['subject_id']);
+                                                        SUM(CASE WHEN tbl_attendance_record.attendance_status = 1 THEN 1 ELSE 0 END) as present_count,
+                                                        SUM(CASE WHEN tbl_attendance_record.attendance_status = 2 THEN 1 ELSE 0 END) as absent_count,
+                                                        SUM(CASE WHEN tbl_attendance_record.attendance_status = 3 THEN 1 ELSE 0 END) as holiday_count
+                                                        FROM tbl_attendance_record
 
-                                // Fetch class name
-                                $query_class_name = "SELECT class FROM tbl_class WHERE id = '$class_id'";
-                                $class_result = $db->select($query_class_name);
+                                                        INNER JOIN tbl_subject
+                                                        ON tbl_attendance_record.subject_id = tbl_subject.id
 
-                                if($class_result){
-                                    $class_name = $class_result->fetch_assoc()['class'];
-                                }
+                                                        INNER JOIN tbl_class
+                                                        ON tbl_attendance_record.class_id = tbl_class.id
 
-                                foreach ($subject_ids as $subject_id) {
+                                                        WHERE teacher_id = '$teacher_id' AND DATE_FORMAT(created_at, '%M %d %Y') = '$current_date_month_year'
+                                                        
+                                                        GROUP BY 
+                                                        tbl_attendance_record.teacher_id, 
+                                                        tbl_attendance_record.class_id, 
+                                                        tbl_attendance_record.subject_id
+                                                    ";
 
-                                    $attendance_check_query = "SELECT * FROM tbl_attendance_record WHERE class_id = '$class_id' AND subject_id = '$subject_id' AND date = '$current_date'";
-                                    $attendance_result = $db->select($attendance_check_query);
+                            $attendance_result = $db->select($attendance_check_query);
 
-                                    if($attendance_result){
+                            if($attendance_result){
+                                while($result = $attendance_result->fetch_assoc()){
 
-                                    
+                        ?>
 
-                                    // Fetch subject name
-                                    $query_subject_name = "SELECT subject_name FROM tbl_subject WHERE id = '$subject_id'";
-                                    $subject_result = $db->select($query_subject_name);
+                        <tr>
+                            <td><?php echo $result['class'] ?></td>
+                            <td><?php echo $result['subject_name'] ?></td>
+                            <td><?php echo $result['present_count'] ?></td>
+                            <td><?php echo $result['absent_count'] ?></td>
+                            <td><?php echo $result['holiday_count'] ?></td>
+                            <td><?php echo $result['count'] ?></td>
+                        </tr>
 
-                                    if($subject_result){
-                                        $subject_name = $subject_result->fetch_assoc()['subject_name'];
-                                    }
-
-                                    // Count Present for each subject
-                                    $present_query = "SELECT COUNT(*) AS present_count FROM tbl_attendance_record 
-                                                    WHERE teacher_id = '$user_id' AND class_id = '$class_id' AND subject_id = '$subject_id' AND attendance_status = '1' AND date = '$current_date' ";
-
-                                    $present_result = $db->select($present_query);
-                                    if($present_result){
-                                        $present_count = $present_result->fetch_assoc()['present_count'];
-                                    }
-
-                                     // Count Absent for each subject
-                                    $absent_query = "SELECT COUNT(*) AS absent_count FROM tbl_attendance_record
-                                                WHERE teacher_id = '$user_id' AND class_id = '$class_id' AND subject_id = '$subject_id' AND attendance_status = '2' AND attendance_status = '2' AND date = '$current_date' ";
-                                    
-                                    $absent_result = $db->select($absent_query);
-                                    if($absent_result){
-                                        $absent_count = $absent_result->fetch_assoc()['absent_count'];
-                                    }
-
-                                     // Count Holiday for each subject
-                                    $holiday_query = "SELECT COUNT(*) AS holiday_count FROM tbl_attendance_record
-                                                WHERE teacher_id = '$user_id' AND class_id = '$class_id' AND subject_id = '$subject_id' AND attendance_status = '3' AND attendance_status = '3' AND date = '$current_date' ";
-                                    
-                                    $holiday_result = $db->select($holiday_query);
-                                    if($holiday_result){
-                                        $holiday_count = $holiday_result->fetch_assoc()['holiday_count'];
-                                    }
-
-                                    // Count Total student
-                                    $total_student_query = "SELECT COUNT(*) AS total_student_count FROM tbl_user
-                                                WHERE class_id = '$class_id'";
-                                    
-                                    $total_student_result = $db->select($total_student_query);
-                                    if($total_student_result){
-                                        $total_student_count = $total_student_result->fetch_assoc()['total_student_count'];
-                                    }
-
-                                    ?>
-                                    
-                                    <tr>
-                                        <td style="color: "><?php echo $class_name; ?></td>
-                                        <td style="font-weight: bold"><?php echo $subject_name; ?></td>
-                                        <td style="color: green"><?php echo $present_count; ?></td>
-                                        <td style="color: red"><?php echo $absent_count; ?></td>
-                                        <td style="color: blue"><?php echo $holiday_count; ?></td>
-                                        <td style="font-weight: bold"><?php echo $total_student_count; ?></td>
-                                    </tr>
-                                    
-                    <?php } } } }?>
+                        <?php } } ?>
 
                     </tbody>
                 </table>

@@ -25,6 +25,15 @@
 
         
         }
+        public function currentDateMonthYear(){
+            $currenDate = new DateTime("now", new DateTimeZone("Asia/Dhaka"));
+
+            // $currenDate= $currenDate->format("Y-m-d");
+            $currenDate= $currenDate->format("F d Y");
+            return $currenDate;
+
+        
+        }
 
         // public function selectedDate($selelcted_date){
 

@@ -23,7 +23,7 @@
                         
                         <td>
                             <input type='checkbox' name='attendance_status[]' class='status-checkbox' value='1' data-row='".$result['id']."'; 
-
+                            
                            >
                         </td>
                         <td>
