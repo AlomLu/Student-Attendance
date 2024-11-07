@@ -15,7 +15,7 @@
                         console.log(selected_date);
 
                         $.ajax({
-                            url: "fetch-data/fetch-studnet-attendance-record.php",
+                            url: "fetch-data/fetch-student-attendance-record.php",
                             method: "POST",
                             data: {selected_date: selected_date},
 
