@@ -37,6 +37,7 @@
                     <input type="date" name="date_pick"  id="select_date">
                 </div>
                 <a href="student-attendance-record-monthly.php">View Monthly Attendance Record</a>
+                <a href="view-monthly-attendance-summary.php">View Monthly Attendance Record Summery</a>
              </form>
             <div class="studnet-attendance-record" id="studnet-attendance-record">
 

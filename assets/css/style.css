@@ -413,18 +413,27 @@ td {
     border: 1px solid black;
     padding: 20px;
 } */
-.studnet-attendance-record, .studnet-attendance-record-monthly {
+.studnet-attendance-record, 
+.studnet-attendance-record-monthly,
+.monthly-attendance-summary{
     margin: 30px 0;
     padding: 0 48px;
 }
-.studnet-attendance-record table tr, .studnet-attendance-record-monthly table tr {
+.studnet-attendance-record table tr, 
+.studnet-attendance-record-monthly table tr ,
+.monthly-attendance-summary table tr {
     border: 1px solid teal;
 }
-.studnet-attendance-record table tr td, .studnet-attendance-record-monthly table tr td{
+.studnet-attendance-record table tr td, 
+.studnet-attendance-record-monthly table tr td,
+.monthly-attendance-summary table tr td{
     border: 1px solid teal;
     padding: 20px;
 }
-.studnet-attendance-record table tr td:last-of-type, .studnet-attendance-record-monthly table tr td:last-of-type{
+/* monthly-attendance-summary */
+.studnet-attendance-record table tr td:last-of-type, 
+.studnet-attendance-record-monthly table tr td:last-of-type, 
+.monthly-attendance-summary table tr td:last-of-type{
     border: none;
 }
 
@@ -503,10 +512,20 @@ td {
     border: 1px solid #ddd;
     margin: 2px 0 15px 0;
 }
-.attendance-record-section a{
-	display: block;
+.attendance-record-section a {
+    display: block;
     width: 31%;
     margin: auto;
+    padding: 5px 0;
+    margin-top: 10px;
+	color: black;
+	transition: .5s;
+}
+.attendance-record-section a:first-of-type{
+	margin-top: 0px;
+}
+.attendance-record-section a:hover{
+	color: tomato;
 }
 .attendance-record-section .form-group input[type="submit"] {
     width: 30%;
@@ -523,6 +542,7 @@ td {
 }
 .attendance-record-section .monthly-record select {
     width: 26%;
+    margin-bottom: 12px;
 }
 .attendance-record{
     width: 90%;
