@@ -62,7 +62,7 @@
 </script>
 
 
-<?php 
+<!-- <?php 
     include '../../lib/Session.php';
     Session::init();
 
@@ -152,4 +152,4 @@
             });
         });
     });
-</script>
+</script> -->

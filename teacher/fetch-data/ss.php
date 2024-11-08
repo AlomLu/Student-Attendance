@@ -1,316 +1,198 @@
-<?php include '../inc/header.php'; ?>
+<?php 
+    include '../../lib/Session.php';
+    Session::init();
 
-        <!-- Attendance area start -->
-        <div class="attendance">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script>
-            $(document).ready(function(){
-                $('#class').change(function(){
-                    // var class_id = $(this).val();
+    include '../../Config/config.php';
+    include '../../lib/Database.php';
+    include '../../Helpers/Format.php';
 
-                    var class_id = $('#class').val();
-                    console.log(class_id);
+    $db = new Database();
+    $fm = new Format();
+    if(isset($_POST['selected_month'])){
+        $currentMonthYear = $_POST['selected_month'];
 
-                    $.ajax({
-                        url: "fetch-data/fetch-subject-attendance.php",
-                        method: "POST",
-                        data: {class_id: class_id},
-                        success: function(data){
-                            $('#selected-class').html(data);
+        $teacher_id = Session::get('user_id');
 
-                            console.log(data);
-                        }
-                    })
-                })
-            })
-            $(document).ready(function(){
-                $('#class').change(function(){
-                    // var class_id = $(this).val();
+?>
 
-                    var class_id = $('#class').val();
-                    console.log(class_id);
+    <h3>
+        <?php echo $currentMonthYear ?>
+    </h3>
+    <table>
+        <tr>
+            <th width="30%">Date</th>
+            <th width="10%">class</th>
+            <th width="15%">Subject</th>
+            <th width="10%">Present</th>
+            <th width="10%">Absent</th>
+            <th width="10%">Holiday</th>
+            <th width="15%">Total Student</th>
+        </tr>
+        <tbody>
 
-                    $.ajax({
-                        url: "fetch-data/fetch-student.php",
-                        method: "POST",
-                        data: {class_id: class_id},
-                        success: function(data){
-                            $('#student').html(data);
+<?php
+    $teacher_query = "SELECT * FROM tbl_attendance_record WHERE teacher_id = '$teacher_id' AND DATE_FORMAT(created_at, '%M %Y') = '$currentMonthYear' ";
+    $teacher_result = $db->select($teacher_query);
 
-                            console.log(data);
-                        }
-                    })
-                })
-            })
-        </script>
-            <div class="about">
-                <h3><?php echo Session::get('user_fname').' '.Session::get('user_lname').' '.Session::get('user_id') ?></h3>
-                <p>
-                    <!-- <span>Class: 10</span> -->
-                    <!-- <span>Subject:</span>  -->
-                        <?php 
-                            $user_id = Session::get('user_id');
+    if($teacher_query){
 
-                            $query = "SELECT * FROM tbl_teacher WHERE user_id = '$user_id' ";
-                            $teacher_details = $db->select($query);
+    
 
-                            if($teacher_details){
-                                while($result = $teacher_details->fetch_assoc()){
-                                    $get_class_id = $result['class_id'];
-                                    $get_subject_id_string = $result['subject_id'];
+    $attendance_check_query_monthly = "SELECT
+                                        tbl_attendance_record.teacher_id, 
+                                        tbl_attendance_record.class_id,
+                                        tbl_attendance_record.subject_id,
+                                        DATE_FORMAT(tbl_attendance_record.created_at, '%M %d %Y') as formatted_date,
+                                        tbl_attendance_record.*,   
+                                        tbl_subject.*,
+                                        tbl_class.*,
+                                        COUNT(*) as count,
 
-                                    $query_class = "SELECT * FROM tbl_class WHERE id = '$get_class_id' ";
-                                    $get_class = $db->select($query_class);
+                                        SUM(CASE WHEN tbl_attendance_record.attendance_status = 1 THEN 1 ELSE 0 END) as present_count,
+                                        SUM(CASE WHEN tbl_attendance_record.attendance_status = 2 THEN 1 ELSE 0 END) as absent_count,
+                                        SUM(CASE WHEN tbl_attendance_record.attendance_status = 3 THEN 1 ELSE 0 END) as holiday_count
+                                        FROM tbl_attendance_record
 
-                                    if($get_class){
-                                        // echo "<span>Class: </span>";
-                                        while($result_class = $get_class->fetch_assoc()){
+                                        INNER JOIN tbl_subject
+                                        ON tbl_attendance_record.subject_id = tbl_subject.id
 
-                                            ?>
-                                          <?php  echo "<span>"."Class ".$result_class['class']." - "."</span>" ?>
+                                        INNER JOIN tbl_class
+                                        ON tbl_attendance_record.class_id = tbl_class.id
 
-                                          <?php  $subject_array = explode(',', $get_subject_id_string);
+                                        WHERE teacher_id = '$teacher_id' AND DATE_FORMAT(created_at, '%M %Y') = '$currentMonthYear'
+    
+                                        GROUP BY 
+                                        tbl_attendance_record.teacher_id, 
+                                        tbl_attendance_record.class_id, 
+                                        tbl_attendance_record.subject_id,
+                                        DATE_FORMAT(tbl_attendance_record.created_at, '%M %d %Y')
+                                        ";
 
-                                            foreach($subject_array as $subject_id){
-                                                $query_subject = "SELECT * FROM tbl_subject WHERE id = '$subject_id' ";
-                                                $get_subject = $db->select($query_subject);
+    $attendance_monthl_result = $db->select($attendance_check_query_monthly);
 
-                                                if($get_subject){
-                                                    while($result_subject = $get_subject->fetch_assoc()){
-                                                        echo "<span>".$result_subject['subject_name']." | "."</span>";
-                                                    }
-                                                }
-                                            }
-                                            // $query_subject = "SELECT * FROM tbl_subject WHERE id = '$get_subject_id' ";
-                                            // $subject_list = $db->select($query_subject);
-                                            
-                                        }
-                                    }
-                                }
-                            }
-                        ?>
-                    
-                </p>
-                <p>
-                    <?php 
-                        $current_date = new DateTime("now", new DateTimeZone("Asia/Dhaka"));
-                        $current_date = $current_date->format("F d, Y");
+    if($attendance_monthl_result){
+        while($result = $attendance_monthl_result->fetch_assoc()){
+?>
+
+            <tr>
+                <td><?php echo $result['formatted_date'] ?></td>
+                <td><?php echo $result['class'] ?></td>
+                <td><?php echo $result['subject_name'] ?></td>
+                <td><?php echo $result['present_count'] ?></td>
+                <td><?php echo $result['absent_count'] ?></td>
+                <td><?php echo $result['holiday_count'] ?></td>
+                <td><?php echo $result['count'] ?></td>
+            </tr>
+
+<?php } }else{ ?>
+    <?php  echo "<tr style='margin-top: 10px'><td>No records for $currentMonthYear</td></tr>"; ?>
+<?php } } } ?>
+
+        </tbody>
+    </table>
+
+
+    <?php 
+    include '../../lib/Session.php';
+    Session::init();
+
+    include '../../Config/config.php';
+    include '../../lib/Database.php';
+    include '../../Helpers/Format.php';
+
+    $db = new Database();
+    $fm = new Format();
+    if(isset($_POST['selected_month']) && isset($_POST['class_id']) && isset($_POST['selected_subject_id'])  ){
+
+        $currentMonthYear = $_POST['selected_month'];
+        $selected_class_id = $_POST['class_id'];
+        $selected_subject_id = $_POST['selected_subject_id'];
+
+        $teacher_id = Session::get('user_id');
+
+?>
+
+    <h3>
+        <?php echo $currentMonthYear ?>
+    </h3>
+    <table>
+        <tr>
+            <th width="30%">Date</th>
+            <th width="10%">class</th>
+            <th width="15%">Subject</th>
+            <th width="10%">Present</th>
+            <th width="10%">Absent</th>
+            <th width="10%">Holiday</th>
+            <th width="15%">Total Student</th>
+        </tr>
+        <tbody>
+
+<?php
+    $teacher_query = "SELECT * FROM 
+                        tbl_attendance_record 
+                        WHERE teacher_id = '$teacher_id' 
+                        AND class_id = '$selected_class_id'
+                        AND subject_id = '$selected_subject_id'
+                        AND DATE_FORMAT(created_at, '%M %Y') = '$currentMonthYear' 
                         
-                        echo $current_date 
-                    ?>
-                </p>
-            </div>
-            <div class="attendance-form">
-                <h3>Attendance</h3>
-                <?php 
-                    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['attendance_status']) && isset($_POST['user_id'])){
-                        $class_id = mysqli_real_escape_string($db->link, $_POST['class_id']);
-                        $subject_id = mysqli_real_escape_string($db->link, $_POST['subject_id']);
-                        $teacher_id = mysqli_real_escape_string($db->link, $_POST['teacher_id']);
-                        $date = new DateTime("now", new DateTimeZone("Asia/Dhaka"));
-                        $date = $date->format("F d, Y");
-                        $user_data = $_POST['user_id']; //Array fof user_id
-                        $attendance_data = $_POST['attendance_status']; //Array of attendance_status
+                        ";
+    $teacher_result = $db->select($teacher_query);
 
-                        foreach($user_data as $index => $user){
-                            $sanitized_user_id = mysqli_real_escape_string($db->link, $user);
+    if($teacher_result){
 
-                            // foreach($attendance_data as $attendance){
-                                $sanitized_attendance_status = mysqli_real_escape_string($db->link, $attendance_data[$index]);
+    
 
-                                $query = "INSERT INTO tbl_attendance_record (user_id, class_id, subject_id, attendance_status, teacher_id, date) 
-                                VALUES ('$sanitized_user_id', '$class_id', '$subject_id', '$sanitized_attendance_status', '$teacher_id', '$date')";
-                                $db->insert($query);
-                            // }
+    $attendance_check_query_monthly = "SELECT
+                                        tbl_attendance_record.teacher_id, 
+                                        tbl_attendance_record.class_id,
+                                        tbl_attendance_record.subject_id,
+                                        DATE_FORMAT(tbl_attendance_record.created_at, '%M %d %Y') as formatted_date,
+                                        tbl_attendance_record.*,   
+                                        tbl_subject.*,
+                                        tbl_class.*,
+                                        COUNT(*) as count,
 
-                        }
-                        echo "<script>alert('Attendance records inserted successfully');</script>";
-                    }
+                                        SUM(CASE WHEN tbl_attendance_record.attendance_status = 1 THEN 1 ELSE 0 END) as present_count,
+                                        SUM(CASE WHEN tbl_attendance_record.attendance_status = 2 THEN 1 ELSE 0 END) as absent_count,
+                                        SUM(CASE WHEN tbl_attendance_record.attendance_status = 3 THEN 1 ELSE 0 END) as holiday_count
+                                        FROM tbl_attendance_record
 
-                   
-                ?>
-                <form action="" method="POST">
-                   <div class="class-section">
-                        <div class="form-group">
-                            <input type="hidden" name="teacher_id" value="<?php echo Session::get('user_id'); ?>">
-                            <select name="class_id" id="class" style="margin-bottom: 30px">
-                                <option value="">Select class</option>
-                                <?php 
-                                $user_id = Session::get('user_id');
+                                        INNER JOIN tbl_subject
+                                        ON tbl_attendance_record.subject_id = tbl_subject.id
 
-                                $query = "SELECT * FROM tbl_teacher WHERE user_id = '$user_id' ";
-                                $teacher_details = $db->select($query);
+                                        INNER JOIN tbl_class
+                                        ON tbl_attendance_record.class_id = tbl_class.id
 
-                                if($teacher_details){
-                                    while($result = $teacher_details->fetch_assoc()){
-                                        $get_class_id = $result['class_id'];
-                                        $get_subject_id_string = $result['subject_id'];
+                                        WHERE 
+                                        tbl_attendance_record.teacher_id = '$teacher_id' 
+                                        AND tbl_attendance_record.class_id = '$selected_class_id'
+                                        AND tbl_attendance_record.subject_id = '$selected_subject_id'
+                                        
+                                        AND DATE_FORMAT(created_at, '%M %Y') = '$currentMonthYear'
+    
+                                        GROUP BY 
+                                        tbl_attendance_record.teacher_id, 
+                                        tbl_attendance_record.class_id, 
+                                        tbl_attendance_record.subject_id,
+                                        DATE_FORMAT(tbl_attendance_record.created_at, '%M %d %Y')
+                                        ";
 
-                                        $query_class = "SELECT * FROM tbl_class WHERE id = '$get_class_id' ";
-                                        $get_class = $db->select($query_class);
+    $attendance_monthl_result = $db->select($attendance_check_query_monthly);
 
-                                        if($get_class){
-                                            // echo "<span>Class: </span>";
-                                            while($result_class = $get_class->fetch_assoc()){
-                                                echo "<option value='".$result_class['id']."'>".$result_class['class']."</option>";
-                                            }
-                                        }
-                                    }
-                                }
-                            ?>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <select name="subject_id" id="selected-class">
-                                <option value="">Select subject</option>
-                            </select>
-                        </div>
-                   </div>
-                    <table>
-                        <tr>
-                            <th width="15%">Student Id</th>
-                            <th width="40%">Name</th>
-                            <th width="15%">Present</th>
-                            <th width="15%">Absent</th>
-                            <th width="15%">Holiday</th>
-                        </tr>
-                        <tbody id="student">
-                           
-                        </tbody>
-                    </table>
-                    <div class="form-group">
-                        <input type="submit" name="submit" value="Submit">
-                    </div>
-                </form>
-            </div>
-            <div class="student-record">
-                <h3>student record <span><?php echo $current_date ?></span></h3>
-                <table>
-                    <tr>
-                        <th width="15%">class</th>
-                        <th width="15%">Subject</th>
-                        <th width="15%">Present</th>
-                        <th width="15%">Absent</th>
-                        <th width="15%">Holiday</th>
-                        <th width="15%">Total Student</th>
-                    </tr>
-                    <tbody>
-                    <?php 
-                        // Fetch classes associated with the teacher
-                        $query_classes = "SELECT * FROM tbl_teacher WHERE user_id = '$user_id'";
-                        $teacher_classes = $db->select($query_classes);
+    if($attendance_monthl_result){
+        while($result = $attendance_monthl_result->fetch_assoc()){
+?>
 
-                        if ($teacher_classes) {
-                            while ($teacher_class = $teacher_classes->fetch_assoc()) {
-                                $class_id = $teacher_class['class_id'];
-                                $subject_ids = explode(',', $teacher_class['subject_id']);
+            <tr>
+                <td><?php echo $result['formatted_date'] ?></td>
+                <td><?php echo $result['class'] ?></td>
+                <td><?php echo $result['subject_name'] ?></td>
+                <td><?php echo $result['present_count'] ?></td>
+                <td><?php echo $result['absent_count'] ?></td>
+                <td><?php echo $result['holiday_count'] ?></td>
+                <td><?php echo $result['count'] ?></td>
+            </tr>
 
-                                // Fetch class name
-                                $query_class_name = "SELECT class FROM tbl_class WHERE id = '$class_id'";
-                                $class_result = $db->select($query_class_name);
-
-                                if($class_result){
-                                    $class_name = $class_result->fetch_assoc()['class'];
-                                }
-
-                                foreach ($subject_ids as $subject_id) {
-
-                                    $attendance_check_query = "SELECT * FROM tbl_attendance_record WHERE class_id = '$class_id' AND subject_id = '$subject_id' AND date = '$current_date'";
-                                    $attendance_result = $db->select($attendance_check_query);
-
-                                    if($attendance_result){
-
-                                    
-
-                                    // Fetch subject name
-                                    $query_subject_name = "SELECT subject_name FROM tbl_subject WHERE id = '$subject_id'";
-                                    $subject_result = $db->select($query_subject_name);
-
-                                    if($subject_result){
-                                        $subject_name = $subject_result->fetch_assoc()['subject_name'];
-                                    }
-
-                                    // Count Present for each subject
-                                    $present_query = "SELECT COUNT(*) AS present_count FROM tbl_attendance_record 
-                                                    WHERE teacher_id = '$user_id' AND class_id = '$class_id' AND subject_id = '$subject_id' AND attendance_status = '1' AND date = '$current_date' ";
-
-                                    $present_result = $db->select($present_query);
-                                    if($present_result){
-                                        $present_count = $present_result->fetch_assoc()['present_count'];
-                                    }
-
-                                     // Count Absent for each subject
-                                    $absent_query = "SELECT COUNT(*) AS absent_count FROM tbl_attendance_record
-                                                WHERE teacher_id = '$user_id' AND class_id = '$class_id' AND subject_id = '$subject_id' AND attendance_status = '2' AND attendance_status = '2' AND date = '$current_date' ";
-                                    
-                                    $absent_result = $db->select($absent_query);
-                                    if($absent_result){
-                                        $absent_count = $absent_result->fetch_assoc()['absent_count'];
-                                    }
-
-                                     // Count Holiday for each subject
-                                    $holiday_query = "SELECT COUNT(*) AS holiday_count FROM tbl_attendance_record
-                                                WHERE teacher_id = '$user_id' AND class_id = '$class_id' AND subject_id = '$subject_id' AND attendance_status = '3' AND attendance_status = '3' AND date = '$current_date' ";
-                                    
-                                    $holiday_result = $db->select($holiday_query);
-                                    if($holiday_result){
-                                        $holiday_count = $holiday_result->fetch_assoc()['holiday_count'];
-                                    }
-
-                                    // Count Total student
-                                    $total_student_query = "SELECT COUNT(*) AS total_student_count FROM tbl_user
-                                                WHERE class_id = '$class_id'";
-                                    
-                                    $total_student_result = $db->select($total_student_query);
-                                    if($total_student_result){
-                                        $total_student_count = $total_student_result->fetch_assoc()['total_student_count'];
-                                    }
-
-                                    ?>
-                                    
-                                    <tr>
-                                        <td style="color: "><?php echo $class_name; ?></td>
-                                        <td style="font-weight: bold"><?php echo $subject_name; ?></td>
-                                        <td style="color: green"><?php echo $present_count; ?></td>
-                                        <td style="color: red"><?php echo $absent_count; ?></td>
-                                        <td style="color: blue"><?php echo $holiday_count; ?></td>
-                                        <td style="font-weight: bold"><?php echo $total_student_count; ?></td>
-                                    </tr>
-                                    
-                    <?php } } } }?>
-
-                    </tbody>
-                </table>
-            </div>
-            
-            <!-- else {
-                            echo "<tr><td colspan='6'>No data available</td></tr>";
-                        } -->
-
-            
-            
-            <!-- <div class="attendance-form">
-               <h3>attendance</h3>
-                <form action="" method="POST">
-                    <div class="form-group">
-                        <label for="">subject</label>
-                        <select name="subject" id="">
-                            <option value="">Select your subject</option>
-                            <option value="">ICT</option>
-                            <option value="">Math</option>
-                            <option value="">Physics</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="">attendance status</label>
-                        <input type="radio" name="attendance_status" value="male"><span>Present</span>
-                        <input type="radio" name="attendance_status" value="female"><span>Absent</span>
-                        <input type="radio" name="attendance_status" value="female"><span>Holiday</span>
-                    </div>
-                </form>
-           </div> -->
-        </div>
-        <!-- Attendance area end -->
-
-<?php include '../inc/footer.php'; ?>
+<?php } }else{ ?>
+    <?php  echo "<tr style='margin-top: 10px'><td>No records for $currentMonthYear</td></tr>"; ?>
+<?php } } } ?>

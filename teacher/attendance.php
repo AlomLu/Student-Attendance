@@ -141,12 +141,13 @@
                                     VALUES ('$sanitized_user_id', '$class_id', '$subject_id', '$sanitized_attendance_status', '$teacher_id', '$date')";
                                     $result = $db->insert($query);
 
-                                    if($result){
-                                        echo "<script>alert('Attendance  records inserted successfully');</script>";
-                                    }else{
-                                        echo "<script>alert('Attendance  records not inserted');</script>";
-                                    }
+                                  
                                 // }
+                            }
+                            if($result){
+                                echo "<script>alert('Attendance  records inserted successfully');</script>";
+                            }else{
+                                echo "<script>alert('Attendance  records not inserted');</script>";
                             }
                         }
                     }
