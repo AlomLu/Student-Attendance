@@ -6,6 +6,8 @@
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <script>
+
+                //Fetch subject by class
                 $(document).ready(function(){
                     $('#class').change(function(){
                         // var class_id = $(this).val();
@@ -18,7 +20,7 @@
                             method: "POST",
                             data: {class_id: class_id},
                             success: function(data){
-                                $('#selected-class').html(data);
+                                $('#selected-subject').html(data);
 
                                 console.log(data);
                             }
@@ -37,6 +39,7 @@
                     $user_id = mysqli_real_escape_string($db->link, $user_id);
 
                     $class_id = mysqli_real_escape_string($db->link, $_POST['class_id']);
+                     
 
                     $subject_id_string = [];
                     if(isset($_POST['subject_id'])){
@@ -95,7 +98,7 @@
                             echo isset($error_class) ? $error_class : '' ;
                         ?>
                     </div>
-                    <div class="form-group" id="selected-class">
+                    <div class="form-group" id="selected-subject">
                         <label for="">subject</label>
                     </div>
                         <?php 

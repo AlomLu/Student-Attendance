@@ -5,6 +5,8 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
+
+             // Fetch-subject by class
             $(document).ready(function(){
                 $('#class').change(function(){
                     // var class_id = $(this).val();
@@ -24,6 +26,8 @@
                     })
                 })
             })
+
+            // Fetch-student by class and subject
             $(document).ready(function(){
                 $('#class').change(function(){
                     // var class_id = $(this).val();
@@ -49,47 +53,47 @@
                 <p>
                     <!-- <span>Class: 10</span> -->
                     <!-- <span>Subject:</span>  -->
-                        <?php 
-                            $user_id = Session::get('user_id');
+                    <?php 
+                        $user_id = Session::get('user_id');
 
-                            $query = "SELECT * FROM tbl_teacher WHERE user_id = '$user_id' ";
-                            $teacher_details = $db->select($query);
+                        $query = "SELECT * FROM tbl_teacher WHERE user_id = '$user_id' ";
+                        $teacher_details = $db->select($query);
 
-                            if($teacher_details){
-                                while($result = $teacher_details->fetch_assoc()){
-                                    $get_class_id = $result['class_id'];
-                                    $get_subject_id_string = $result['subject_id'];
+                        if($teacher_details){
+                            while($result = $teacher_details->fetch_assoc()){
+                                $get_class_id = $result['class_id'];
+                                $get_subject_id_string = $result['subject_id'];
 
-                                    $query_class = "SELECT * FROM tbl_class WHERE id = '$get_class_id' ";
-                                    $get_class = $db->select($query_class);
+                                $query_class = "SELECT * FROM tbl_class WHERE id = '$get_class_id' ";
+                                $get_class = $db->select($query_class);
 
-                                    if($get_class){
-                                        // echo "<span>Class: </span>";
-                                        while($result_class = $get_class->fetch_assoc()){
+                                if($get_class){
+                                    // echo "<span>Class: </span>";
+                                    while($result_class = $get_class->fetch_assoc()){
 
-                                            ?>
-                                          <?php  echo "<span>"."Class ".$result_class['class']." - "."</span>" ?>
+                                        ?>
+                                        <?php  echo "<span>"."Class ".$result_class['class']." - "."</span>" ?>
 
-                                          <?php  $subject_array = explode(',', $get_subject_id_string);
+                                        <?php  $subject_array = explode(',', $get_subject_id_string);
 
-                                            foreach($subject_array as $subject_id){
-                                                $query_subject = "SELECT * FROM tbl_subject WHERE id = '$subject_id' ";
-                                                $get_subject = $db->select($query_subject);
+                                        foreach($subject_array as $subject_id){
+                                            $query_subject = "SELECT * FROM tbl_subject WHERE id = '$subject_id' ";
+                                            $get_subject = $db->select($query_subject);
 
-                                                if($get_subject){
-                                                    while($result_subject = $get_subject->fetch_assoc()){
-                                                        echo "<span>".$result_subject['subject_name']." | "."</span>";
-                                                    }
+                                            if($get_subject){
+                                                while($result_subject = $get_subject->fetch_assoc()){
+                                                    echo "<span>".$result_subject['subject_name']." | "."</span>";
                                                 }
                                             }
-                                            // $query_subject = "SELECT * FROM tbl_subject WHERE id = '$get_subject_id' ";
-                                            // $subject_list = $db->select($query_subject);
-                                            
                                         }
+                                        // $query_subject = "SELECT * FROM tbl_subject WHERE id = '$get_subject_id' ";
+                                        // $subject_list = $db->select($query_subject);
+                                        
                                     }
                                 }
                             }
-                        ?>
+                        }
+                    ?>
                     
                 </p>
                 <p>
@@ -281,34 +285,6 @@
                     </tbody>
                 </table>
             </div>
-            
-            <!-- else {
-                            echo "<tr><td colspan='6'>No data available</td></tr>";
-                        } -->
-
-            
-            
-            <!-- <div class="attendance-form">
-               <h3>attendance</h3>
-                <form action="" method="POST">
-                    <div class="form-group">
-                        <label for="">subject</label>
-                        <select name="subject" id="">
-                            <option value="">Select your subject</option>
-                            <option value="">ICT</option>
-                            <option value="">Math</option>
-                            <option value="">Physics</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="">attendance status</label>
-                        <input type="radio" name="attendance_status" value="male"><span>Present</span>
-                        <input type="radio" name="attendance_status" value="female"><span>Absent</span>
-                        <input type="radio" name="attendance_status" value="female"><span>Holiday</span>
-                    </div>
-                </form>
-           </div> -->
         </div>
-        <!-- Attendance area end -->
 
 <?php include '../inc/footer.php'; ?>
